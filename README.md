@@ -1,7 +1,7 @@
 # Car Collection Manager
 
 The application will be for a car collector who wants to keep track of
-their car collection. iT will allow the user to add, remove, filter, and display
+their car collection. It will allow the user to add, remove, filter, and display
 their cars.
 
 This project is of interest to me as I hope to have many cars in the future.

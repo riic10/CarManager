@@ -40,4 +40,10 @@ public class Car {
     public void setForSale() {
         // STUB
     }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the Car as being not for sale
+    public void setNotForSale() {
+        // STUB
+    }
 }

@@ -14,22 +14,26 @@ public class Car {
     }
 
     public int getYear() {
-        // STUB
+        return 0; // STUB
     }
 
     public String getMake() {
-        // STUB
+        return null; // STUB
     }
 
     public String getModel() {
-        // STUB
+        return null; // STUB
     }
 
     public String getCategory() {
-        // STUB
+        return null; // STUB
     }
 
     public boolean getForSale() {
+        return false; // STUB
+    }
+
+    public void setForSale() {
         // STUB
     }
 }

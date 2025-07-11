@@ -9,6 +9,8 @@ public class Car {
     private String category;
     private boolean forSale;
 
+    // EFFECTS: Constructs a Car with the given year, make, model, category,
+    // and set to not for sale
     public Car(int year, String make, String model, String category, boolean forSale) {
         // STUB
     }
@@ -33,6 +35,8 @@ public class Car {
         return false; // STUB
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets the Car as being for sale
     public void setForSale() {
         // STUB
     }

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestCar {
-    
-Car testCar;
+
+    Car testCar;
 
     @BeforeEach
     void runBefore() {
@@ -19,7 +19,7 @@ Car testCar;
         assertEquals(2000, testCar.getYear());
         assertEquals("Honda", testCar.getMake());
         assertEquals("Civic", testCar.getModel());
-        assertEquals("Economy", testCar.getCategory());
+        assertEquals(Category.ECONOMY, testCar.getCategory());
         assertFalse(testCar.getForSale());
     }
 

@@ -14,4 +14,4 @@ I am manifesting an abundant life.
 - As a user, I want to be able to view a list of the cars in the collection  
 - As a user, I want to be able to select a category and view the cars that match   
 (supercar, muscle, jdm, luxury, etc.)  
-- As a user, I want to be able to mark a car as "For sale"  
+- As a user, I want to be able to mark a car as for sale and view the cars in a collection that are for sale  

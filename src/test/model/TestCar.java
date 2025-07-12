@@ -11,7 +11,7 @@ Car testCar;
 
     @BeforeEach
     void runBefore() {
-        testCar = new Car(2000, "Honda", "Civic", "Economy", false);
+        testCar = new Car(2000, "Honda", "Civic", Category.ECONOMY, false);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package model;
 
 public enum Category {
+    RACECAR,
     SUPERCAR,
     SPORTSCAR,
     LUXURY,

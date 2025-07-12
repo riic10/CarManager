@@ -30,10 +30,22 @@ public class Collection {
 
     // EFFECTS: Returns a list of Cars in the Collection filtered by 
     // the given category 
-    public ArrayList<Car> filterCollection(Category category) {
+    public ArrayList<Car> filterCollectionByCategory(Category category) {
         ArrayList<Car> matches = new ArrayList<Car>();
         for (Car c : collection) {
             if (c.getCategory() == category) {
+                matches.add(c);
+            }
+        }
+        return matches;
+    }
+
+    // EFFECTS: Returns a list of Cars in the Collection which are 
+    // listed as for sale
+    public ArrayList<Car> filterCollectionForSale() {
+        ArrayList<Car> matches = new ArrayList<Car>();
+        for (Car c : collection) {
+            if (c.getForSale()) {
                 matches.add(c);
             }
         }

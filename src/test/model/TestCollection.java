@@ -63,22 +63,46 @@ public class TestCollection {
     }
 
     @Test
-    void testFilterCollectionOneCar() {
+    void testFilterCollectionByCategoryOneCar() {
         testCollection.addCar(testCar1);
-        assertTrue(testCollection.filterCollection(Category.ECONOMY).contains(testCar1));
+        assertTrue(testCollection.filterCollectionByCategory(Category.ECONOMY).contains(testCar1));
     }
 
     @Test 
-    void testFilterCollectionMultipleCars() {
+    void testFilterCollectionByCategoryMultipleCars() {
         testCollection.addCar(testCar1);
         testCollection.addCar(testCar2);
         testCollection.addCar(testCar3);
         testCollection.addCar(testCar4);
         testCollection.addCar(testCar5);
-        assertTrue(testCollection.filterCollection(Category.SUPERCAR).contains(testCar2));
-        assertTrue(testCollection.filterCollection(Category.SUPERCAR).contains(testCar5));
-        assertFalse(testCollection.filterCollection(Category.SUPERCAR).contains(testCar1));
-        assertFalse(testCollection.filterCollection(Category.SUPERCAR).contains(testCar3));
-        assertFalse(testCollection.filterCollection(Category.SUPERCAR).contains(testCar4));
+        assertTrue(testCollection.filterCollectionByCategory(Category.SUPERCAR).contains(testCar2));
+        assertTrue(testCollection.filterCollectionByCategory(Category.SUPERCAR).contains(testCar5));
+        assertFalse(testCollection.filterCollectionByCategory(Category.SUPERCAR).contains(testCar1));
+        assertFalse(testCollection.filterCollectionByCategory(Category.SUPERCAR).contains(testCar3));
+        assertFalse(testCollection.filterCollectionByCategory(Category.SUPERCAR).contains(testCar4));
+    }
+
+    @Test
+    void testFilterCollectionForSaleOneCar() {
+        testCollection.addCar(testCar1);
+        testCar1.setForSale();
+        assertTrue(testCollection.filterCollectionForSale().contains(testCar1));
+    }
+
+    @Test 
+    void testFilterCollectionForSaleMultipleCars() {
+        testCollection.addCar(testCar1);
+        testCollection.addCar(testCar2);
+        testCar2.setForSale();
+        testCollection.addCar(testCar3);
+        testCar3.setForSale();
+        testCollection.addCar(testCar4);
+        testCar4.setForSale();
+        testCollection.addCar(testCar5);
+        assertTrue(testCollection.filterCollectionForSale().contains(testCar2));
+        assertTrue(testCollection.filterCollectionForSale().contains(testCar3));
+        assertTrue(testCollection.filterCollectionForSale().contains(testCar4));
+        assertFalse(testCollection.filterCollectionForSale().contains(testCar1));
+        assertFalse(testCollection.filterCollectionForSale().contains(testCar5));
     }
 }

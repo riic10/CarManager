@@ -11,39 +11,43 @@ public class Car {
 
     // EFFECTS: Constructs a Car with the given year, make, model, category,
     // and set to not for sale
-    public Car(int year, String make, String model, String category, boolean forSale) {
-        // STUB
+    public Car(int year, String make, String model, Category category, boolean forSale) {
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.category = category;
+        this.forSale = false;
     }
 
     public int getYear() {
-        return 0; // STUB
+        return this.year;
     }
 
     public String getMake() {
-        return null; // STUB
+        return this.make;
     }
 
     public String getModel() {
-        return null; // STUB
+        return this.model;
     }
 
     public Category getCategory() {
-        return null; // STUB
+        return this.category;
     }
 
     public boolean getForSale() {
-        return false; // STUB
+        return this.forSale;
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the Car as being for sale
     public void setForSale() {
-        // STUB
+        this.forSale = true;
     }
 
     // MODIFIES: this
     // EFFECTS: Sets the Car as being not for sale
     public void setNotForSale() {
-        // STUB
+        this.forSale = false;
     }
 }

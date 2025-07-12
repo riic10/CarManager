@@ -14,23 +14,29 @@ public class Collection {
     // MODIFIES: this
     // EFFECTS: Adds the given Car to the Collection 
     public void addCar(Car c) {
-        // STUB
+        this.collection.add(c);
     }
 
     // MODIFIES: this
     // EFFECTS: Removes the given Car from the Collection
     public void removeCar(Car c) {
-        // STUB
+        this.collection.remove(c);
     }
 
     // EFFECTS: Returns the entire Collection
     public ArrayList<Car> getCollection() {
-        return null; // STUB
+        return this.collection;
     }
 
     // EFFECTS: Returns a list of Cars in the Collection filtered by 
     // the given category 
-    public ArrayList<Car> getFilteredCollection(Category category) {
-        return null; // STUB
+    public ArrayList<Car> filterCollection(Category category) {
+        ArrayList<Car> matches = new ArrayList<Car>();
+        for (Car c : collection) {
+            if (c.getCategory() == category) {
+                matches.add(c);
+            }
+        }
+        return matches;
     }
 }

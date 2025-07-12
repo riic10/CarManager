@@ -30,7 +30,7 @@ public class Collection {
 
     // EFFECTS: Returns a list of Cars in the Collection filtered by 
     // the given category 
-    public ArrayList<Car> getFilteredCollection(String category) {
+    public ArrayList<Car> getFilteredCollection(Category category) {
         return null; // STUB
     }
 }

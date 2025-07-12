@@ -6,7 +6,7 @@ public class Car {
     private int year;
     private String make;
     private String model;
-    private String category;
+    private Category category;
     private boolean forSale;
 
     // EFFECTS: Constructs a Car with the given year, make, model, category,
@@ -27,7 +27,7 @@ public class Car {
         return null; // STUB
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return null; // STUB
     }
 

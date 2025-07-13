@@ -3,6 +3,8 @@ package model;
 // Creates a new Car object with fields representing the production year, make, model,
 // category, and whether or not it's for sale or not.
 public class Car {
+    private static int nextID = 1;
+    private int id;
     private int year;
     private String make;
     private String model;
@@ -12,11 +14,16 @@ public class Car {
     // EFFECTS: Constructs a Car with the given year, make, model, category,
     // and set to not for sale
     public Car(int year, String make, String model, Category category, boolean forSale) {
+        this.id = nextID++;
         this.year = year;
         this.make = make;
         this.model = model;
         this.category = category;
         this.forSale = false;
+    }
+
+    public int getID() {
+        return this.id;
     }
 
     public int getYear() {
@@ -49,5 +56,9 @@ public class Car {
     // EFFECTS: Sets the Car as being not for sale
     public void setNotForSale() {
         this.forSale = false;
+    }
+
+    public void resetID() {
+        Car.nextID = 1;    
     }
 }

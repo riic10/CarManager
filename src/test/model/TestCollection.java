@@ -22,6 +22,11 @@ public class TestCollection {
         testCar3 = new Car(1969, "Dodge", "Charger", Category.MUSCLE, false);
         testCar4 = new Car(2020, "Mercedes", "W11", Category.RACECAR, false);
         testCar5 = new Car(2017, "Bugatti", "Chiron", Category.SUPERCAR, false);
+        testCar1.resetID();
+        testCar2.resetID();
+        testCar3.resetID();
+        testCar4.resetID();
+        testCar5.resetID();
     }
 
     @Test
@@ -48,7 +53,7 @@ public class TestCollection {
     void testRemoveOneCar() {
         testCollection.addCar(testCar1);
         assertEquals(testCar1, testCollection.getCollection().get(0));
-        testCollection.removeCar(testCar1);
+        testCollection.removeCar(1);
         assertEquals(0, testCollection.getCollection().size());
     }
 
@@ -58,7 +63,7 @@ public class TestCollection {
         testCollection.addCar(testCar2);
         assertEquals(testCar3, testCollection.getCollection().get(0));
         assertEquals(testCar2, testCollection.getCollection().get(1));
-        testCollection.removeCar(testCar2);
+        testCollection.removeCar(2);
         assertFalse(testCollection.getCollection().contains(testCar2));
     }
 

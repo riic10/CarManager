@@ -61,4 +61,8 @@ public class Car {
     public void resetID() {
         Car.nextID = 1;    
     }
+
+    public String toString() {
+        return "ID: " + id + " -- " + year + make + " " + model + " Category: " + category + " For sale?: " + forSale;
+    }
 }

@@ -19,8 +19,23 @@ public class Collection {
 
     // MODIFIES: this
     // EFFECTS: Removes the given Car from the Collection
-    public void removeCar(Car c) {
-        this.collection.remove(c);
+    public void removeCar(int idToBeRemoved) {
+        for (int i = 0; i < collection.size(); i++) {
+            if (collection.get(i).getID() == idToBeRemoved) {
+                collection.remove(i);
+                break;
+            }
+        }
+    }
+
+    // EFFECTS: Returns the car in the collection with a given ID number
+    public Car getCar(int carID) {
+        for (Car c : collection) {
+            if (c.getID() == carID) {
+                return c;
+            }
+        }
+        return null; 
     }
 
     // EFFECTS: Returns the entire Collection
@@ -51,4 +66,25 @@ public class Collection {
         }
         return matches;
     }
+
+    // EFFECTS: Takes an ArrayList<Car> and displays all of them in the console.
+    // This method is meant to be used with filtered lists and not the entire collection.
+    public void displayCars(ArrayList<Car> carList) {
+        if (carList.isEmpty()) {
+            System.out.println("--No cars--");
+        }
+        for (Car c : carList) {
+            System.out.println(c.toString());
+        }
+    }
+
+    // EFFECTS: Displays the entire collection in the console
+    public void displayCollection() {
+        if (collection.isEmpty()) {
+            System.out.println("--No cars--");
+        }
+        for (Car c : collection) {
+            System.out.println(c.toString());
+        }
+    }    
 }

@@ -176,7 +176,7 @@ public class CarCollectionManager {
 
     // EFFECTS: Takes an ArrayList<Car> and displays all of them in the console.
     // This method is meant to be used with filtered lists and not the entire collection.
-    public void displayCars(ArrayList<Car> carList) {
+    private void displayCars(ArrayList<Car> carList) {
         if (carList.isEmpty()) {
             System.out.println("--No cars--");
         }
@@ -186,7 +186,7 @@ public class CarCollectionManager {
     }
 
     // EFFECTS: Displays the entire collection in the console
-    public void displayCollection() {
+    private void displayCollection() {
         if (collection.getCollection().size() == 0) {
             System.out.println("--No cars--");
         }

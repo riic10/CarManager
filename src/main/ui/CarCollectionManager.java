@@ -15,6 +15,7 @@ public class CarCollectionManager {
         runManager();    
     }
 
+    // Adapted from the TellerApp example
     public void runManager() {
         boolean keepGoing = true;
         String command = null;
@@ -77,6 +78,7 @@ public class CarCollectionManager {
         System.out.println("\tn -> Set a car as not for sale");
         System.out.println("\tfs -> See cars that are for sale");
         System.out.println("\tfc -> See cars in a category");
+        System.out.println("\tq -> Quit");
     }
 
     // EFFECTS: returns the entire collection

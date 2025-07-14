@@ -17,6 +17,7 @@ public class Collection {
         this.collection.add(c);
     }
 
+    // REQUIRES: idToBeRemoved >= 1
     // MODIFIES: this
     // EFFECTS: Removes the given Car from the Collection
     public void removeCar(int idToBeRemoved) {
@@ -58,7 +59,7 @@ public class Collection {
         return matches;
     }
 
-    // EFFECTS: Returns a list of Ca rs in the Collection which are 
+    // EFFECTS: Returns a list of Cars in the Collection which are 
     // listed as for sale
     public ArrayList<Car> filterCollectionForSale() {
         ArrayList<Car> matches = new ArrayList<Car>();

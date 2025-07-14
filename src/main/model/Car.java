@@ -63,6 +63,7 @@ public class Car {
     }
 
     public String toString() {
-        return "ID: " + id + " -- " + year + make + " " + model + " Category: " + category + " For sale?: " + forSale;
+        return "ID: " + id + " -- " + year + " " + make + " " + model
+            + " -- Category: " + category + " For sale?: " + forSale;
     }
 }

@@ -11,7 +11,7 @@ public class Car {
     private Category category;
     private boolean forSale;
 
-    // EFFECTS: Constructs a Car with the given year, make, model, category,
+    // EFFECTS: Constructs a Car with an ID number, the given year, make, model, category,
     // and set to not for sale
     public Car(int year, String make, String model, Category category, boolean forSale) {
         this.id = nextID++;
@@ -58,10 +58,13 @@ public class Car {
         this.forSale = false;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets the nextID field back to 1
     public void resetID() {
         Car.nextID = 1;    
     }
 
+    // EFFECTS: Returns the given Car converted into a String
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
             + " -- Category: " + category + " For sale?: " + forSale;

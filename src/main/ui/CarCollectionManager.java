@@ -24,6 +24,7 @@ public class CarCollectionManager {
         while (keepGoing) {
             displayMenu();
             command = input.next();
+            input.nextLine();
             command = command.toLowerCase();
 
             if (command.equals("q")) {
@@ -80,7 +81,7 @@ public class CarCollectionManager {
 
     // EFFECTS: returns the entire collection
     private void doGetCollection() {
-        collection.displayCollection();
+        displayCollection();
     }
 
     // MODIFIES: this
@@ -134,15 +135,16 @@ public class CarCollectionManager {
     // EFFECTS: Returns only the cars that are for sale in the collection
     private void doFilterForSale() {
         ArrayList<Car> filteredList = this.collection.filterCollectionForSale();
-        collection.displayCars(filteredList);
+        displayCars(filteredList);
     }
 
     // EFFECTS: Returns only the cars in the collection which match a given category
     private void doFilterByCategory() {
         System.out.print("Enter the category of cars to see: ");
-        Category category = parseCategory(input.nextLine());
+        String userCategory = input.nextLine();
+        Category category = parseCategory(userCategory);
         ArrayList<Car> filteredList = this.collection.filterCollectionByCategory(category);
-        collection.displayCars(filteredList);
+        displayCars(filteredList);
     }
 
     // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,
@@ -169,4 +171,25 @@ public class CarCollectionManager {
                 return Category.OTHER;
         }
     }
+
+    // EFFECTS: Takes an ArrayList<Car> and displays all of them in the console.
+    // This method is meant to be used with filtered lists and not the entire collection.
+    public void displayCars(ArrayList<Car> carList) {
+        if (carList.isEmpty()) {
+            System.out.println("--No cars--");
+        }
+        for (Car c : carList) {
+            System.out.println(c.toString());
+        }
+    }
+
+    // EFFECTS: Displays the entire collection in the console
+    public void displayCollection() {
+        if (collection.getCollection().size() == 0) {
+            System.out.println("--No cars--");
+        }
+        for (Car c : collection.getCollection()) {
+            System.out.println(c.toString());
+        }
+    }    
 }

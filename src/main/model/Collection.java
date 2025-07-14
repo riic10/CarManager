@@ -28,7 +28,9 @@ public class Collection {
         }
     }
 
+    // REQUIRES: carID >= 1
     // EFFECTS: Returns the car in the collection with a given ID number
+    //          or null if not found
     public Car getCar(int carID) {
         for (Car c : collection) {
             if (c.getID() == carID) {
@@ -43,6 +45,7 @@ public class Collection {
         return this.collection;
     }
 
+    // REQUIRES: category must be of type Category
     // EFFECTS: Returns a list of Cars in the Collection filtered by 
     // the given category 
     public ArrayList<Car> filterCollectionByCategory(Category category) {
@@ -55,7 +58,7 @@ public class Collection {
         return matches;
     }
 
-    // EFFECTS: Returns a list of Cars in the Collection which are 
+    // EFFECTS: Returns a list of Ca rs in the Collection which are 
     // listed as for sale
     public ArrayList<Car> filterCollectionForSale() {
         ArrayList<Car> matches = new ArrayList<Car>();

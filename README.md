@@ -1,10 +1,9 @@
 # Car Collection Manager
 
-The application will be for a car collector who wants to keep track of
-their car collection. It will allow the user to add, remove, filter, and display
-their cars.
+The application will be for a car collector who wants to keep track of and manage
+their car collection.
 
-This project is of interest to me as I hope to have many cars in the future.
+This project is of interest to me as my friends and I hope to have many cars in the future.
 I am manifesting an abundant life.
 
 ## User Stories
@@ -13,5 +12,5 @@ I am manifesting an abundant life.
 - As a user, I want to be able to remove a car from the collection  
 - As a user, I want to be able to view a list of the cars in the collection  
 - As a user, I want to be able to select a category and view the cars that match   
-(supercar, muscle, jdm, luxury, etc.)  
+(One of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE, VINTAGE, ECONOMY, OTHER)  
 - As a user, I want to be able to mark a car as for sale and view the cars in a collection that are for sale  

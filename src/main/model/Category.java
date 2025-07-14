@@ -1,5 +1,6 @@
 package model;
 
+// The 8 possible Car types for this program
 public enum Category {
     RACECAR,
     SUPERCAR,

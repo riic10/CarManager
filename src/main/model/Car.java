@@ -67,6 +67,6 @@ public class Car {
     // EFFECTS: Returns the given Car converted into a String
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
-            + " -- Category: " + category + " For sale?: " + forSale;
+            + " -- Category: " + category + " -- For sale?: " + forSale;
     }
 }

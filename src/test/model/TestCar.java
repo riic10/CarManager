@@ -52,6 +52,6 @@ public class TestCar {
 
     @Test
     void testToString() {
-        assertEquals("ID: 1 -- 2000 Honda Civic -- Category: ECONOMY For sale?: false", testCar1.toString());
+        assertEquals("ID: 1 -- 2000 Honda Civic -- Category: ECONOMY -- For sale?: false", testCar1.toString());
     }
 }

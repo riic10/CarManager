@@ -51,6 +51,8 @@ public class TestCollection {
 
     @Test
     void testRemoveOneCar() {
+        testCollection.removeCar(3);
+        assertEquals(0, testCollection.getCollection().size());
         testCollection.addCar(testCar1);
         assertEquals(testCar1, testCollection.getCollection().get(0));
         testCollection.removeCar(1);
@@ -65,6 +67,17 @@ public class TestCollection {
         assertEquals(testCar2, testCollection.getCollection().get(1));
         testCollection.removeCar(2);
         assertFalse(testCollection.getCollection().contains(testCar2));
+    }
+
+    @Test
+    void testGetCar() {
+        assertNull(testCollection.getCar(0));
+        testCollection.addCar(testCar1);
+        testCollection.addCar(testCar2);
+        testCollection.addCar(testCar3);
+        assertEquals(testCar1, testCollection.getCar(1));
+        assertEquals(testCar2, testCollection.getCar(2));
+        assertEquals(testCar3, testCollection.getCar(3));
     }
 
     @Test

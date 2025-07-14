@@ -49,4 +49,9 @@ public class TestCar {
         testCar1.setNotForSale();
         assertFalse(testCar1.getForSale());
     }
+
+    @Test
+    void testToString() {
+        assertEquals("ID: 1 -- 2000 Honda Civic -- Category: ECONOMY For sale?: false", testCar1.toString());
+    }
 }

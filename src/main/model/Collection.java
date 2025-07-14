@@ -66,25 +66,4 @@ public class Collection {
         }
         return matches;
     }
-
-    // EFFECTS: Takes an ArrayList<Car> and displays all of them in the console.
-    // This method is meant to be used with filtered lists and not the entire collection.
-    public void displayCars(ArrayList<Car> carList) {
-        if (carList.isEmpty()) {
-            System.out.println("--No cars--");
-        }
-        for (Car c : carList) {
-            System.out.println(c.toString());
-        }
-    }
-
-    // EFFECTS: Displays the entire collection in the console
-    public void displayCollection() {
-        if (collection.isEmpty()) {
-            System.out.println("--No cars--");
-        }
-        for (Car c : collection) {
-            System.out.println(c.toString());
-        }
-    }    
 }

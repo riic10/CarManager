@@ -1,12 +1,18 @@
 {
-    "thingies": [
+    "collection": [
         {
-            "name": "needle",
-            "category": "STITCHING"
+            "year": "2000",
+            "make": "honda",
+            "model": "civic",
+            "category": "ECONOMY",
+            "forSale": "false"
         },
         {
-            "name": "thread",
-            "category": "STITCHING"
+            "year": "2025",
+            "make": "porsche",
+            "model": "911",
+            "category": "SPORTSCAR",
+            "forSale": "false"
         }
     ]
 }

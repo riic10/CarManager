@@ -1,12 +1,18 @@
 {
-    "thingies": [
+    "collection": [
         {
-            "name": "saw",
-            "category": "METALWORK"
+            "year": "2018",
+            "make": "lexus",
+            "model": "rx350",
+            "category": "LUXURY",
+            "forSale": "false"
         },
         {
-            "name": "needle",
-            "category": "STITCHING"
+            "year": "2000",
+            "make": "honda",
+            "model": "civic",
+            "category": "ECONOMY",
+            "forSale": "false"
         }
     ]
 }

@@ -1,0 +1,18 @@
+{
+    "collection": [
+        {
+            "year": "2020",
+            "make": "toyota",
+            "model": "corolla",
+            "category": "ECONOMY",
+            "forSale": "false"
+        },
+        {
+            "year": "1969",
+            "make": "dodge",
+            "model": "charger",
+            "category": "MUSCLE",
+            "forSale": "false"
+        }
+    ]
+}

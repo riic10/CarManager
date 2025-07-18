@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import org.json.JSONObject;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads collection from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -21,9 +21,9 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads collection from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public Collection read() throws IOException {
+    public WorkRoom read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseWorkRoom(jsonObject);
@@ -40,7 +40,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses collection from JSON object and returns it
     private WorkRoom parseWorkRoom(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         WorkRoom wr = new WorkRoom(name);
@@ -48,8 +48,8 @@ public class JsonReader {
         return wr;
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
+    // MODIFIES: c
+    // EFFECTS: parses cars from JSON object and adds them to collection
     private void addThingies(WorkRoom wr, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("thingies");
         for (Object json : jsonArray) {
@@ -58,8 +58,8 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
+    // MODIFIES: c
+    // EFFECTS: parses car from JSON object and adds it to workroom
     private void addThingy(WorkRoom wr, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Category category = Category.valueOf(jsonObject.getString("category"));

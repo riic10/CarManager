@@ -6,13 +6,6 @@
             "model": "rx350",
             "category": "LUXURY",
             "forSale": "false"
-        },
-        {
-            "year": "2000",
-            "make": "honda",
-            "model": "civic",
-            "category": "ECONOMY",
-            "forSale": "false"
         }
     ]
 }

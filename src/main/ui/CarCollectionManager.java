@@ -1,7 +1,11 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,6 +14,9 @@ public class CarCollectionManager {
 
     private Collection collection;
     private Scanner input;
+    private static final String JSON_STORE = "./data/collection.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     public CarCollectionManager() {
         runManager();    
@@ -193,5 +200,28 @@ public class CarCollectionManager {
         for (Car c : collection.getCollection()) {
             System.out.println(c.toString());
         }
-    }    
+    }
+    
+    // EFFECTS: saves the collection to file
+    private void saveCollection() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(collection);
+            jsonWriter.close();
+            System.out.println("The collection has been saved to: " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save the collection to: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads collection from file
+    private void loadWorkRoom() {
+        try {
+            collection = jsonReader.read();
+            System.out.println("Loaded the collection from: " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to load the collection from: " + JSON_STORE);
+        }
+    }
 }

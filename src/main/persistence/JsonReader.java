@@ -43,7 +43,6 @@ public class JsonReader {
 
     // EFFECTS: parses collection from JSON object and returns it
     private Collection parseCollection(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
         Collection c = new Collection();
         addCars(c, jsonObject);
         return c;
@@ -52,18 +51,21 @@ public class JsonReader {
     // MODIFIES: c
     // EFFECTS: parses cars from JSON object and adds them to collection
     private void addCars(Collection c, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
+        JSONArray jsonArray = jsonObject.getJSONArray("cars");
         for (Object json : jsonArray) {
             JSONObject nextCar = (JSONObject) json;
-            addCars(c, nextCar);
+            addCar(c, nextCar);
         }
     }
 
     // MODIFIES: c
     // EFFECTS: parses car from JSON object and adds it to collection
-    private void addThingy(Collection c, JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
+    private void addCar(Collection c, JSONObject jsonObject) {
+        int year = jsonObject.getInt("year");
+        String make = jsonObject.getString("make");
+        String model = jsonObject.getString("model");
         Category category = Category.valueOf(jsonObject.getString("category"));
+        boolean forSale = jsonObject.getBoolean("forSale");
         Car car = new Car(year, make, model, category, forSale);
         c.addCar(car);
     }

@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 // A list of Cars in a collector's collection
 public class Collection {
     private ArrayList<Car> collection;
@@ -69,5 +72,22 @@ public class Collection {
             }
         }
         return matches;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("collection", carsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray carsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Car c : collection) {
+            jsonArray.put(c.toJson());
+        }
+
+        return jsonArray;
     }
 }

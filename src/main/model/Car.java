@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Creates a new Car object with fields representing the production year, make, model,
 // category, and whether or not it's for sale or not.
 public class Car {
@@ -68,5 +70,15 @@ public class Car {
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
             + " -- Category: " + category + " -- For sale?: " + forSale;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("year", year);
+        json.put("make", make);
+        json.put("model", model);
+        json.put("category", category);
+        json.put("forSale", forSale);
+        return json;
     }
 }

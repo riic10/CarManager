@@ -51,7 +51,7 @@ public class JsonReader {
     // MODIFIES: c
     // EFFECTS: parses cars from JSON object and adds them to collection
     private void addCars(Collection c, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("cars");
+        JSONArray jsonArray = jsonObject.getJSONArray("collection");
         for (Object json : jsonArray) {
             JSONObject nextCar = (JSONObject) json;
             addCar(c, nextCar);

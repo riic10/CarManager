@@ -19,6 +19,8 @@ public class CarCollectionManager {
     private JsonReader jsonReader;
 
     public CarCollectionManager() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runManager();    
     }
 
@@ -62,6 +64,10 @@ public class CarCollectionManager {
             doFilterForSale();
         } else if (command.equals("fc")) {
             doFilterByCategory();
+        } else if (command.equals("sc")) {
+            saveCollection();
+        } else if (command.equals("lc")) {
+            loadCollection();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -85,6 +91,8 @@ public class CarCollectionManager {
         System.out.println("\tn -> Set a car as not for sale");
         System.out.println("\tfs -> See cars that are for sale");
         System.out.println("\tfc -> See cars in a category");
+        System.out.println("\tsc -> Save collection to file");
+        System.out.println("\tlc -> Load collection from file");
         System.out.println("\tq -> Quit");
     }
 
@@ -216,7 +224,7 @@ public class CarCollectionManager {
 
     // MODIFIES: this
     // EFFECTS: loads collection from file
-    private void loadWorkRoom() {
+    private void loadCollection() {
         try {
             collection = jsonReader.read();
             System.out.println("Loaded the collection from: " + JSON_STORE);

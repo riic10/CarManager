@@ -15,4 +15,4 @@ I am manifesting an abundant life.
 (One of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE, VINTAGE, ECONOMY, OTHER)  
 - As a user, I want to be able to mark a car as for sale and view the cars in a collection that are for sale  
 - As a user, I want to be able to save my collection before quitting the program  
-- As a user, I want to be able to load my collection from file   
+- As a user, I want to be able to load my collection from file after opening the program  

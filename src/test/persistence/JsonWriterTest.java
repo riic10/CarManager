@@ -71,7 +71,7 @@ class JsonWriterTest extends JsonTest {
             Collection c = new Collection();
             c.addCar(new Car(2018, "lexus", "rx350", Category.LUXURY, false));
             c.addCar(new Car(2010, "bugatti", "veyron", Category.SUPERCAR, true));
-            JsonWriter writer = new JsonWriter("./data/testWriterOneCar.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterTwoCars.json");
             writer.open();
             writer.write(c);
             writer.close();

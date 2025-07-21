@@ -14,14 +14,14 @@ public class Car {
     private boolean forSale;
 
     // EFFECTS: Constructs a Car with an ID number, the given year, make, model, category,
-    // and set to not for sale
+    // and whether it is for sale
     public Car(int year, String make, String model, Category category, boolean forSale) {
         this.id = nextID++;
         this.year = year;
         this.make = make;
         this.model = model;
         this.category = category;
-        this.forSale = false;
+        this.forSale = forSale;
     }
 
     public int getID() {

@@ -1,0 +1,16 @@
+{"collection": [
+    {
+        "forSale": false,
+        "year": 2018,
+        "model": "rx350",
+        "category": "LUXURY",
+        "make": "lexus"
+    },
+    {
+        "forSale": true,
+        "year": 2010,
+        "model": "veyron",
+        "category": "SUPERCAR",
+        "make": "bugatti"
+    }
+]}

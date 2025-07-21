@@ -74,13 +74,15 @@ public class Collection {
         return matches;
     }
 
+    // EFFECTS: Sets up a JSON object labelled as collection with
+    // all the cars added to it
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("collection", carsToJson());
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: Returns things in this collection as a JSON array
     private JSONArray carsToJson() {
         JSONArray jsonArray = new JSONArray();
 

@@ -5,7 +5,7 @@ import org.json.*;
 
 import java.io.*;
 
-// Represents a writer that writes JSON representation of workroom to file
+// Represents a writer that writes JSON representation of the collection to file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
@@ -24,7 +24,7 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of workroom to file
+    // EFFECTS: writes JSON representation of the collection to file
     public void write(Collection c) {
         JSONObject json = c.toJson();
         saveToFile(json.toString(TAB));

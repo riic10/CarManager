@@ -64,4 +64,26 @@ class JsonWriterTest extends JsonTest {
             fail("Exception should not have been thrown");
         }
     }
+    
+    @Test
+    void testWriterTwoCars() {
+        try {
+            Collection c = new Collection();
+            c.addCar(new Car(2018, "lexus", "rx350", Category.LUXURY, false));
+            c.addCar(new Car(2010, "bugatti", "veyron", Category.SUPERCAR, true));
+            JsonWriter writer = new JsonWriter("./data/testWriterOneCar.json");
+            writer.open();
+            writer.write(c);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterTwoCars.json");
+            c = reader.read();
+            ArrayList<Car> cars = c.getCollection();
+            assertEquals(2, cars.size());
+            checkCar(2018, "lexus", "rx350", Category.LUXURY, false, cars.get(0));
+            checkCar(2010, "bugatti", "veyron", Category.SUPERCAR, true, cars.get(1));
+        } catch (IOException e) {
+            fail("Exception should not be thrown");
+        }
+    }
 }

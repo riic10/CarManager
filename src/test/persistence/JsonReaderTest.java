@@ -36,14 +36,27 @@ class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderGeneralWorkRoom() {
+    void testReaderOneCar() {
+        JsonReader reader = new JsonReader("./data/testReaderOneCar.json");
+        try {
+            Collection c = reader.read();
+            List<Car> collection = c.getCollection();
+            assertEquals(1, collection.size());
+            checkCar(1908, "ford", "model t", Category.VINTAGE, false, c.getCollection().get(0));
+        } catch (IOException e) {
+            fail("couldn't read from file");
+        }
+    }
+
+    @Test
+    void testReaderTwoCars() {
         JsonReader reader = new JsonReader("./data/testReaderMixedCars.json");
         try {
             Collection c = reader.read();
             List<Car> collection = c.getCollection();
             assertEquals(2, collection.size());
             checkCar(2020, "toyota", "corolla", Category.ECONOMY, false, c.getCollection().get(0));
-            checkCar(1969, "dodge", "charger", Category.MUSCLE, false, c.getCollection().get(1));
+            checkCar(1969, "dodge", "charger", Category.MUSCLE, true, c.getCollection().get(1));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }

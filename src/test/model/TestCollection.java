@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -122,5 +124,35 @@ public class TestCollection {
         assertTrue(testCollection.filterCollectionForSale().contains(testCar4));
         assertFalse(testCollection.filterCollectionForSale().contains(testCar1));
         assertFalse(testCollection.filterCollectionForSale().contains(testCar5));
+    }
+
+    @Test
+    void testToJson() {
+        testCollection.addCar(testCar3);
+        testCollection.addCar(testCar4);
+
+        JSONObject testCar3Json = new JSONObject();
+        testCar3Json.put("year", 1969);
+        testCar3Json.put("make", "Dodge");
+        testCar3Json.put("model", "Charger");
+        testCar3Json.put("category", Category.MUSCLE);
+        testCar3Json.put("forSale", false);
+
+        JSONObject testCar4Json = new JSONObject();
+        testCar4Json.put("year", 2020);
+        testCar4Json.put("make", "Mercedes");
+        testCar4Json.put("model", "W11");
+        testCar4Json.put("category", Category.RACECAR);
+        testCar4Json.put("forSale", false);
+
+        JSONArray carArray = new JSONArray();
+        carArray.put(testCar3Json);
+        carArray.put(testCar4Json);
+
+        JSONObject expectedJson = new JSONObject();
+        expectedJson.put("collection", carArray);
+        JSONObject actualJson = testCollection.toJson();
+        
+        assertTrue(expectedJson.similar(actualJson));
     }
 }

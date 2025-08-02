@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class CarManagerUI {
@@ -21,6 +23,11 @@ public class CarManagerUI {
     private JsonReader jsonReader;
 
     public CarManagerUI() {
+
+        collection = new Collection();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         int choice = JOptionPane.showConfirmDialog(
                 null, 
                 "Would you like to load existing car data?", 
@@ -31,6 +38,7 @@ public class CarManagerUI {
         if (choice == JOptionPane.YES_OPTION) {
             System.out.println("User chose YES");
             // Open the program with data loaded from file
+            loadCollection();
         } else {
             System.out.println("User chose NO");
             // Open the program without loading from file
@@ -62,5 +70,36 @@ public class CarManagerUI {
         filterForSaleButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Filter for sale clicked!"));
 
         frame.add(toolBar, BorderLayout.NORTH);
+    }
+
+    private void loadCollection() {
+        try {
+            collection = jsonReader.read();
+            JOptionPane.showMessageDialog(frame, "Data loaded successfully!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                    frame, 
+                    "Could not load data from file. Starting with empty collection.", 
+                    "Load Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            collection = new Collection();
+        }
+    }
+
+    // EFFECTS: saves the collection to file
+    private void saveCollection() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(collection);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(
+                    frame, 
+                    "Could not save data to file.",
+                    "Save Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 }

@@ -1,5 +1,9 @@
 package ui;
 
+import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,6 +14,11 @@ import java.awt.event.ActionListener;
 public class CarManagerUI {
     private JFrame frame;
     private JPanel panel;
+
+    private Collection collection;
+    private static final String JSON_STORE = "./data/collection.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     public CarManagerUI() {
         int choice = JOptionPane.showConfirmDialog(
@@ -43,11 +52,14 @@ public class CarManagerUI {
     
         JButton addCarButton = new JButton("Add Car");
         JButton removeCarButton = new JButton("Remove Car");
+        JButton filterForSaleButton = new JButton("Show cars for sale");
         toolBar.add(addCarButton);
         toolBar.add(removeCarButton);
+        toolBar.add(filterForSaleButton);
 
         addCarButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Add Car clicked!"));
         removeCarButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Remove Car clicked!"));
+        filterForSaleButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Filter for sale clicked!"));
 
         frame.add(toolBar, BorderLayout.NORTH);
     }

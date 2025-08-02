@@ -213,6 +213,7 @@ public class CarManagerUI {
         dialog.add(cancelButton);
     }
     
+    // EFFECTS: Creates a new car based on the user's input
     private Car createCar(JTextField yearField, JTextField makeField,
                                  JTextField modelField, JComboBox<String> categoryCombo, JCheckBox forSaleCheckbox) {
         int year = Integer.parseInt(yearField.getText().trim());
@@ -225,6 +226,8 @@ public class CarManagerUI {
         return car;
     }
 
+    // EFFECTS: Draws the prompt which the user will interact with when they would
+    //          like to remove a car from the collection
     private void showRemovePrompt() {
         JDialog dialog = new JDialog(frame, "Remove a Car", true);
         
@@ -238,13 +241,16 @@ public class CarManagerUI {
         dialog.setVisible(true);
     }
 
+    // EFFECTS: Sets the layout of the user prompt and labels the field which
+    //          the user will enter their choice
     private void removeCarFormComponents(JDialog dialog, JTextField idToBeRemoved) {
         dialog.setLayout(new GridLayout(2, 2, 5, 5));
-        
         dialog.add(new JLabel("ID of car to remove:"));
         dialog.add(idToBeRemoved);
     }
 
+    // EFFECTS: Draws the buttons which are a part of the prompt for the
+    //          user to choose which car to remove from the collection
     private void removeCarButton(JDialog dialog, JTextField idToBeRemoved) {
         JButton okButton = new JButton("Remove Car");
         JButton cancelButton = new JButton("Cancel");
@@ -268,6 +274,9 @@ public class CarManagerUI {
         dialog.add(cancelButton);
     }
 
+    // REQUIRES: idToBeRemoved must be in the collection
+    // EFFECTS: Removes the car in the collection which matches the
+    //          idToBeRemoved
     private void removeCar(JTextField idToBeRemoved) {
         int id = Integer.parseInt(idToBeRemoved.getText().trim());
         collection.removeCar(id);

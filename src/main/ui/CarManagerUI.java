@@ -142,7 +142,7 @@ public class CarManagerUI {
     // REQUIRES: collection contains Car
     // EFFECTS: Removes an existing car from the collection
     private void handleRemoveCar() {
-        JOptionPane.showMessageDialog(frame, "Remove Car clicked!");
+        showRemovePrompt();
     }
 
     // EFFECTS: Returns only the cars matching the selected category
@@ -168,9 +168,6 @@ public class CarManagerUI {
         dialog.pack();
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
-
-        Car car = createCar(yearField, makeField, modelField, category, forSaleCheckbox);
-        collection.addCar(car);
     }
 
     // EFFECTS: Draws labels for each field in the form for adding a new car
@@ -199,7 +196,8 @@ public class CarManagerUI {
         okButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createCar(yearField, makeField, modelField, category, forSaleCheckbox);
+                Car car = createCar(yearField, makeField, modelField, category, forSaleCheckbox);
+                collection.addCar(car);
                 dialog.dispose();
             }
         });
@@ -225,6 +223,54 @@ public class CarManagerUI {
         
         Car car = new Car(year, make, model, category, forSale);
         return car;
+    }
+
+    private void showRemovePrompt() {
+        JDialog dialog = new JDialog(frame, "Remove a Car", true);
+        
+        JTextField idToRemove = new JTextField(10);
+
+        removeCarFormComponents(dialog, idToRemove);
+        removeCarButton(dialog, idToRemove);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
+    }
+
+    private void removeCarFormComponents(JDialog dialog, JTextField idToBeRemoved) {
+        dialog.setLayout(new GridLayout(2, 2, 5, 5));
+        
+        dialog.add(new JLabel("ID of car to remove:"));
+        dialog.add(idToBeRemoved);
+    }
+
+    private void removeCarButton(JDialog dialog, JTextField idToBeRemoved) {
+        JButton okButton = new JButton("Remove Car");
+        JButton cancelButton = new JButton("Cancel");
+        
+        okButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeCar(idToBeRemoved);
+                dialog.dispose();
+            }
+        });
+        
+        cancelButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+        
+        dialog.add(okButton);
+        dialog.add(cancelButton);
+    }
+
+    private void removeCar(JTextField idToBeRemoved) {
+        int id = Integer.parseInt(idToBeRemoved.getText().trim());
+        collection.removeCar(id);
     }
 
     // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,

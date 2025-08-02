@@ -136,8 +136,7 @@ public class CarManagerUI {
 
     // EFFECTS: Adds a new car to the collection
     private void handleAddCar() {
-        JOptionPane.showMessageDialog(frame, "Add Car clicked!");
-        showAddCarDialog();
+        showAddCarForm();
     }
 
     // REQUIRES: collection contains Car
@@ -151,23 +150,72 @@ public class CarManagerUI {
         JOptionPane.showMessageDialog(frame, "Filter for sale clicked!");
     }
 
-    private void showAddCarDialog() {
+    // EFFECTS: Shows the form that the user fills out when adding a new car and
+    // places it into the collection
+    private void showAddCarForm() {
         JDialog dialog = new JDialog(frame, "Add New Car", true);
-        dialog.setLayout(new GridBagLayout());
         
         JTextField yearField = new JTextField(10);
         JTextField makeField = new JTextField(15);
         JTextField modelField = new JTextField(15);
         String[] categories = {"RACECAR", "SUPERCAR", "SPORTSCAR", "LUXURY", "MUSCLE", "VINTAGE", "ECONOMY", "OTHER"};
-        JComboBox<String> categoryCombo = new JComboBox<>(categories);
+        JComboBox<String> category = new JComboBox<>(categories);
         JCheckBox forSaleCheckbox = new JCheckBox("For Sale");
+
+        addCarFormComponents(dialog, yearField, makeField, modelField, category, forSaleCheckbox);
+        addFormButtons(dialog, yearField, makeField, modelField, category, forSaleCheckbox);
 
         dialog.pack();
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
+
+        Car car = createCar(yearField, makeField, modelField, category, forSaleCheckbox);
+        collection.addCar(car);
+    }
+
+    // EFFECTS: Draws labels for each field in the form for adding a new car
+    private void addCarFormComponents(JDialog dialog, JTextField yearField, JTextField makeField, 
+                                   JTextField modelField, JComboBox<String> category, JCheckBox forSaleCheckbox) {
+        dialog.setLayout(new GridLayout(6, 2, 5, 5));
+        
+        dialog.add(new JLabel("Year:"));
+        dialog.add(yearField);
+        dialog.add(new JLabel("Make:"));
+        dialog.add(makeField);
+        dialog.add(new JLabel("Model:"));
+        dialog.add(modelField);
+        dialog.add(new JLabel("Category:"));
+        dialog.add(category);
+        dialog.add(new JLabel("For Sale:"));
+        dialog.add(forSaleCheckbox);
+    }
+
+    // EFFECTS: Draws the add car and cancel buttons in the add car form
+    private void addFormButtons(JDialog dialog, JTextField yearField, JTextField makeField,
+                                JTextField modelField, JComboBox<String> category, JCheckBox forSaleCheckbox) {
+        JButton okButton = new JButton("Add Car");
+        JButton cancelButton = new JButton("Cancel");
+        
+        okButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createCar(yearField, makeField, modelField, category, forSaleCheckbox);
+                dialog.dispose();
+            }
+        });
+        
+        cancelButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+        
+        dialog.add(okButton);
+        dialog.add(cancelButton);
     }
     
-    private Car processDialogInput(JDialog dialog, JTextField yearField, JTextField makeField,
+    private Car createCar(JTextField yearField, JTextField makeField,
                                  JTextField modelField, JComboBox<String> categoryCombo, JCheckBox forSaleCheckbox) {
         int year = Integer.parseInt(yearField.getText().trim());
         String make = makeField.getText().trim();

@@ -51,19 +51,53 @@ public class CarManagerUI {
     private void createToolBar() {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
-    
-        JButton addCarButton = new JButton("Add Car");
-        JButton removeCarButton = new JButton("Remove Car");
-        JButton filterForSaleButton = new JButton("Show cars for sale");
-        toolBar.add(addCarButton);
-        toolBar.add(removeCarButton);
-        toolBar.add(filterForSaleButton);
-
-        addCarButton.addActionListener(e -> handleAddCar());
-        removeCarButton.addActionListener(e -> handleRemoveCar());
-        filterForSaleButton.addActionListener(e -> handleFilterForSale());
+        toolBar.add(createAddCarButton());
+        toolBar.add(createRemoveCarButton());
+        toolBar.add(createFilterForSaleButton());
 
         frame.add(toolBar, BorderLayout.NORTH);
+    }
+
+    // EFFECTS: Creates the add car button and connects it to
+    // handleAddCar()
+    private JButton createAddCarButton() {
+        JButton addCarButton = new JButton("Add Car");
+        addCarButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleAddCar();
+            }
+        });
+        addCarButton.setFocusable(false);
+        return addCarButton;
+    }
+
+    // EFFECTS: Creates the remove car button and connects it to
+    // handleRemoveCar()
+    private JButton createRemoveCarButton() {
+        JButton removeCarButton = new JButton("Remove Car");
+        removeCarButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleRemoveCar();
+            }
+        });
+        removeCarButton.setFocusable(false);
+        return removeCarButton;
+    }
+
+    // EFFECTS: Creates the add car button and connects it to
+    // handleAddCar()
+    private JButton createFilterForSaleButton() {
+        JButton filterForSaleButton = new JButton("Show for sale");
+        filterForSaleButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleFilterForSale();
+            }
+        });
+        filterForSaleButton.setFocusable(false);
+        return filterForSaleButton;
     }
 
     // EFFECTS: Prompts the user to select if they would like to load
@@ -103,6 +137,7 @@ public class CarManagerUI {
     // EFFECTS: Adds a new car to the collection
     private void handleAddCar() {
         JOptionPane.showMessageDialog(frame, "Add Car clicked!");
+        showAddCarDialog();
     }
 
     // REQUIRES: collection contains Car
@@ -114,6 +149,59 @@ public class CarManagerUI {
     // EFFECTS: Returns only the cars matching the selected category
     private void handleFilterForSale() {
         JOptionPane.showMessageDialog(frame, "Filter for sale clicked!");
+    }
+
+    private void showAddCarDialog() {
+        JDialog dialog = new JDialog(frame, "Add New Car", true);
+        dialog.setLayout(new GridBagLayout());
+        
+        JTextField yearField = new JTextField(10);
+        JTextField makeField = new JTextField(15);
+        JTextField modelField = new JTextField(15);
+        String[] categories = {"RACECAR", "SUPERCAR", "SPORTSCAR", "LUXURY", "MUSCLE", "VINTAGE", "ECONOMY", "OTHER"};
+        JComboBox<String> categoryCombo = new JComboBox<>(categories);
+        JCheckBox forSaleCheckbox = new JCheckBox("For Sale");
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
+    }
+    
+    private Car processDialogInput(JDialog dialog, JTextField yearField, JTextField makeField,
+                                 JTextField modelField, JComboBox<String> categoryCombo, JCheckBox forSaleCheckbox) {
+        int year = Integer.parseInt(yearField.getText().trim());
+        String make = makeField.getText().trim();
+        String model = modelField.getText().trim();
+        Category category = parseCategory(categoryCombo.getSelectedItem().toString());
+        boolean forSale = forSaleCheckbox.isSelected();
+        
+        Car car = new Car(year, make, model, category, forSale);
+        return car;
+    }
+
+    // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,
+    //           VINTAGE, ECONOMY, OTHER (case sensitive)
+    // MODIFIES: s
+    // EFFECTS: Converts the given string into it's corresponding Category
+    private Category parseCategory(String s) {
+        switch (s) {
+            case "RACECAR":
+                return Category.RACECAR;
+            case "SUPERCAR":
+                return Category.SUPERCAR;
+            case "SPORTSCAR":
+                return Category.SPORTSCAR;
+            case "LUXURY":
+                return Category.LUXURY;
+            case "MUSCLE":
+                return Category.MUSCLE;
+            case "VINTAGE":
+                return Category.VINTAGE;
+            case "ECONOMY":
+                return Category.ECONOMY;
+            default:
+                return Category.OTHER;
+        }
     }
 
     // EFFECTS: Saves the collection to file

@@ -26,25 +26,10 @@ public class CarManagerUI {
 
     // initializes and sets up the gui
     public CarManagerUI() {
-
-        collection = new Collection();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-
-        int choice = JOptionPane.showConfirmDialog(
-                null, 
-                "Would you like to load existing car data?", 
-                null, 
-                JOptionPane.YES_NO_OPTION
-        );
-    
-        if (choice == JOptionPane.YES_OPTION) {
-            // Open the program with data loaded from file
-            loadCollection();
-        } else {
-            // Open the program without loading from file
-            collection = new Collection();
-        }
+        
+        openingMessage();
 
         frame = new JFrame();
         panel = new JPanel();
@@ -79,6 +64,23 @@ public class CarManagerUI {
         filterForSaleButton.addActionListener(e -> handleFilterForSale());
 
         frame.add(toolBar, BorderLayout.NORTH);
+    }
+
+    private void openingMessage() {
+        int choice = JOptionPane.showConfirmDialog(
+                null, 
+                "Would you like to load existing car data?", 
+                null, 
+                JOptionPane.YES_NO_OPTION
+        );
+    
+        if (choice == JOptionPane.YES_OPTION) {
+            // Open the program with data loaded from file
+            loadCollection();
+        } else {
+            // Open the program without loading from file
+            collection = new Collection();
+        }
     }
 
     // EFFECTS: loads the collection from file

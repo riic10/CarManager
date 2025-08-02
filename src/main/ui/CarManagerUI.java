@@ -47,7 +47,7 @@ public class CarManagerUI {
         });
     }
 
-    // draws the menu buttons that can be clicked
+    // EFFECTS: Draws the menu buttons which can be clicked
     private void createToolBar() {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
@@ -66,6 +66,8 @@ public class CarManagerUI {
         frame.add(toolBar, BorderLayout.NORTH);
     }
 
+    // EFFECTS: Prompts the user to select if they would like to load
+    // their collection from file 
     private void openingMessage() {
         int choice = JOptionPane.showConfirmDialog(
                 null, 
@@ -83,7 +85,7 @@ public class CarManagerUI {
         }
     }
 
-    // EFFECTS: loads the collection from file
+    // EFFECTS: Loads the collection from file
     private void loadCollection() {
         try {
             collection = jsonReader.read();
@@ -114,7 +116,7 @@ public class CarManagerUI {
         JOptionPane.showMessageDialog(frame, "Filter for sale clicked!");
     }
 
-    // EFFECTS: saves the collection to file
+    // EFFECTS: Saves the collection to file
     private void saveCollection() {
         try {
             jsonWriter.open();

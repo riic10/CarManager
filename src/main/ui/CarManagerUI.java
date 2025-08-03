@@ -70,12 +70,23 @@ public class CarManagerUI {
         tableModel = new DefaultTableModel(COLUMN_NAMES, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make table read-only
+                return false; // false means the user cannot edits rows
             }
         };
         carTable = new JTable(tableModel);
         carTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         carTable.getTableHeader().setReorderingAllowed(false);
+    }
+
+    // EFFECTS: Sets up the panel with the table
+    private void setupTablePanel() {
+        panel.setLayout(new BorderLayout());
+        panel.setBackground(Color.decode("#C9A0DC"));
+        
+        JScrollPane scrollPane = new JScrollPane(carTable);
+        scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+        
+        panel.add(scrollPane, BorderLayout.CENTER);
     }
 
     // EFFECTS: Creates the add car button and connects it to

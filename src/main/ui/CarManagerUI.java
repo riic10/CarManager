@@ -15,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class CarManagerUI {
@@ -40,6 +41,8 @@ public class CarManagerUI {
         frame = new JFrame();
         panel = new JPanel();
         createToolBar();
+        setupTablePanel();
+
         frame.setSize(700, 500);
         panel.setBackground(Color.decode("#C9A0DC"));
         frame.add(panel);
@@ -51,6 +54,7 @@ public class CarManagerUI {
                 exitProgram();
             }
         });
+        refreshTable();
     }
 
     // EFFECTS: Draws the menu buttons which can be clicked
@@ -82,11 +86,31 @@ public class CarManagerUI {
     private void setupTablePanel() {
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.decode("#C9A0DC"));
-        
+
         JScrollPane scrollPane = new JScrollPane(carTable);
         scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         panel.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // EFFECTS: Refreshes the table with current collection data
+    private void refreshTable() {
+        tableModel.setRowCount(0);
+        
+        if (collection != null) {
+            ArrayList<Car> cars = collection.getCollection();
+            for (Car car : cars) {
+                Object[] rowData = {
+                    car.getID(),
+                    car.getYear(),
+                    car.getMake(),
+                    car.getModel(),
+                    car.getCategory().toString(),
+                    car.getForSale() ? "Yes" : "No"
+                };
+                tableModel.addRow(rowData);
+            }
+        }
     }
 
     // EFFECTS: Creates the add car button and connects it to
@@ -168,12 +192,14 @@ public class CarManagerUI {
     // EFFECTS: Adds a new car to the collection
     private void handleAddCar() {
         showAddCarForm();
+        refreshTable();
     }
 
     // REQUIRES: collection contains Car
     // EFFECTS: Removes an existing car from the collection
     private void handleRemoveCar() {
         showRemovePrompt();
+        refreshTable();
     }
 
     // EFFECTS: Returns only the cars matching the selected category

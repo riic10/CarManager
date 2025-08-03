@@ -6,6 +6,8 @@ import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,9 @@ import java.io.IOException;
 public class CarManagerUI {
     private JFrame frame;
     private JPanel panel;
+    private JTable carTable;
+    private DefaultTableModel tableModel;
+    private static final String[] COLUMN_NAMES = {"ID", "Year", "Make", "Model", "Category", "For Sale"};
 
     private Collection collection;
     private static final String JSON_STORE = "./data/collection.json";
@@ -30,6 +35,7 @@ public class CarManagerUI {
         jsonReader = new JsonReader(JSON_STORE);
         
         openingMessage();
+        initializeTable();
 
         frame = new JFrame();
         panel = new JPanel();
@@ -56,6 +62,20 @@ public class CarManagerUI {
         toolBar.add(createFilterForSaleButton());
 
         frame.add(toolBar, BorderLayout.NORTH);
+    }
+    
+    // EFFECTS: Initializes the main table for the user to see the
+    //          current collection
+    private void initializeTable() {
+        tableModel = new DefaultTableModel(COLUMN_NAMES, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table read-only
+            }
+        };
+        carTable = new JTable(tableModel);
+        carTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        carTable.getTableHeader().setReorderingAllowed(false);
     }
 
     // EFFECTS: Creates the add car button and connects it to

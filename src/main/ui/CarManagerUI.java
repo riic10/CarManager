@@ -86,11 +86,41 @@ public class CarManagerUI {
     private void setupTablePanel() {
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.decode("#C9A0DC"));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JScrollPane scrollPane = new JScrollPane(carTable);
-        scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         panel.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // EFFECTS: Adds each car in the collection as a row in the table
+    private void fillTable() {
+        ArrayList<Car> cars = collection.getCollection();
+        for (Car car : cars) {
+            Object[] rowData = {
+                car.getID(),
+                car.getYear(),
+                car.getMake(),
+                car.getModel(),
+                car.getCategory().toString(),
+                car.getForSale() ? "Yes" : "No"
+            };
+            tableModel.addRow(rowData);
+        }
+    }
+
+    private void fillTable(DefaultTableModel model, ArrayList<Car> cars) {
+        for (Car car : cars) {
+            Object[] rowData = {
+                car.getID(),
+                car.getYear(),
+                car.getMake(),
+                car.getModel(),
+                car.getCategory().toString(),
+                car.getForSale() ? "Yes" : "No"
+            };
+            model.addRow(rowData);
+        }
     }
 
     // EFFECTS: Refreshes the table with current collection data
@@ -98,18 +128,7 @@ public class CarManagerUI {
         tableModel.setRowCount(0);
         
         if (collection != null) {
-            ArrayList<Car> cars = collection.getCollection();
-            for (Car car : cars) {
-                Object[] rowData = {
-                    car.getID(),
-                    car.getYear(),
-                    car.getMake(),
-                    car.getModel(),
-                    car.getCategory().toString(),
-                    car.getForSale() ? "Yes" : "No"
-                };
-                tableModel.addRow(rowData);
-            }
+            fillTable();
         }
     }
 
@@ -204,7 +223,8 @@ public class CarManagerUI {
 
     // EFFECTS: Returns only the cars matching the selected category
     private void handleFilterForSale() {
-        JOptionPane.showMessageDialog(frame, "Filter for sale clicked!");
+        ArrayList<Car> filtered = collection.filterCollectionForSale();
+        showForSale(filtered, "For Sale");
     }
 
     // EFFECTS: Shows the form that the user fills out when adding a new car and
@@ -337,6 +357,30 @@ public class CarManagerUI {
     private void removeCar(JTextField idToBeRemoved) {
         int id = Integer.parseInt(idToBeRemoved.getText().trim());
         collection.removeCar(id);
+    }
+
+    // EFFECTS: Shows filtered results in a popup dialog
+    private void showForSale(ArrayList<Car> cars, String title) {
+        JDialog dialog = new JDialog(frame, title, true);
+        
+        DefaultTableModel filteredModel = new DefaultTableModel(COLUMN_NAMES, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        JTable filteredTable = new JTable(filteredModel);
+
+        fillTable(filteredModel, cars);
+
+        JScrollPane scrollPane = new JScrollPane(filteredTable);
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        
+        dialog.add(scrollPane);
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
     }
 
     // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,

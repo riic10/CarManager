@@ -5,7 +5,7 @@ public class Main {
         // System.out.println("");
         // System.out.println("--Welcome to the car collection!--");
         // System.out.print("");
-        
+
         // new CarCollectionManager();
         new CarManagerUI();
     }

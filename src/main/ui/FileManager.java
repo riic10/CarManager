@@ -26,11 +26,10 @@ public class FileManager {
             return collection;
         } catch (IOException e) {
             JOptionPane.showMessageDialog(
-                    parentFrame, 
-                    "Could not load data from file. Starting with empty collection.", 
+                    parentFrame,
+                    "Could not load data from file. Starting with empty collection.",
                     "Load Error",
-                    JOptionPane.WARNING_MESSAGE
-            );
+                    JOptionPane.WARNING_MESSAGE);
             return null;
         }
     }
@@ -43,11 +42,10 @@ public class FileManager {
             jsonWriter.close();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(
-                    parentFrame, 
+                    parentFrame,
                     "Could not save data to file.",
                     "Save Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -4,7 +4,6 @@ import model.Collection;
 
 import org.json.*;
 
-
 import java.io.*;
 
 // Represents a writer that writes JSON representation of the collection to file
@@ -19,7 +18,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
+    // EFFECTS: opens writer; throws FileNotFoundException if destination file
+    // cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));

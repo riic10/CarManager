@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // Car collection manager app
-public class CarCollectionManager { 
+public class CarCollectionManager {
 
     private Collection collection;
     private Scanner input;
@@ -21,7 +21,7 @@ public class CarCollectionManager {
     public CarCollectionManager() {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-        runManager();    
+        runManager();
     }
 
     // Adapted from the TellerApp example
@@ -164,8 +164,9 @@ public class CarCollectionManager {
         displayCars(filteredList);
     }
 
-    // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,
-    //           VINTAGE, ECONOMY, OTHER (case sensitive)
+    // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY,
+    // MUSCLE,
+    // VINTAGE, ECONOMY, OTHER (case sensitive)
     // MODIFIES: s
     // EFFECTS: Converts the given string into it's corresponding Category
     private Category parseCategory(String s) {
@@ -190,7 +191,8 @@ public class CarCollectionManager {
     }
 
     // EFFECTS: Takes an ArrayList<Car> and displays all of them in the console.
-    // This method is meant to be used with filtered lists and not the entire collection.
+    // This method is meant to be used with filtered lists and not the entire
+    // collection.
     private void displayCars(ArrayList<Car> carList) {
         if (carList.isEmpty()) {
             System.out.println("--No cars--");
@@ -209,7 +211,7 @@ public class CarCollectionManager {
             System.out.println(c.toString());
         }
     }
-    
+
     // EFFECTS: saves the collection to file
     private void saveCollection() {
         try {

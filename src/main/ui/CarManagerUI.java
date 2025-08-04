@@ -19,13 +19,13 @@ public class CarManagerUI {
     private JPanel panel;
     private JTable carTable;
     private DefaultTableModel tableModel;
-    private static final String[] COLUMN_NAMES = {"ID", "Year", "Make", "Model", "Category", "For Sale"};
+    private static final String[] COLUMN_NAMES = { "ID", "Year", "Make", "Model", "Category", "For Sale" };
 
     private Collection collection;
     private static final String JSON_STORE = "./data/collection.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    
+
     private DialogManager dialogManager;
     private TableManager tableManager;
     private FileManager fileManager;
@@ -34,9 +34,9 @@ public class CarManagerUI {
     public CarManagerUI() {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-        
+
         fileManager = new FileManager(jsonWriter, jsonReader);
-        
+
         openingMessage();
         initializeTable();
 
@@ -72,9 +72,9 @@ public class CarManagerUI {
 
         frame.add(toolBar, BorderLayout.NORTH);
     }
-    
+
     // EFFECTS: Initializes the main table for the user to see the
-    //          current collection
+    // current collection
     private void initializeTable() {
         tableModel = new DefaultTableModel(COLUMN_NAMES, 0) {
             @Override
@@ -94,7 +94,7 @@ public class CarManagerUI {
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JScrollPane scrollPane = new JScrollPane(carTable);
-        
+
         panel.add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -146,15 +146,14 @@ public class CarManagerUI {
     }
 
     // EFFECTS: Prompts the user to select if they would like to load
-    // their collection from file 
+    // their collection from file
     private void openingMessage() {
         int choice = JOptionPane.showConfirmDialog(
-                null, 
-                "Would you like to load existing car data?", 
-                null, 
-                JOptionPane.YES_NO_OPTION
-        );
-    
+                null,
+                "Would you like to load existing car data?",
+                null,
+                JOptionPane.YES_NO_OPTION);
+
         if (choice == JOptionPane.YES_OPTION) {
             // Open the program with data loaded from file
             loadCollection();
@@ -207,9 +206,8 @@ public class CarManagerUI {
                 "Do you want to save your progress before exiting?",
                 "Save Before Exit",
                 JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
-        
+                JOptionPane.QUESTION_MESSAGE);
+
         if (choice == JOptionPane.YES_OPTION) {
             saveCollection();
             System.exit(0);

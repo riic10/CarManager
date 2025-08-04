@@ -25,4 +25,5 @@ I am manifesting an abundant life.
 - You can remove a car from the collection by clicking "Remove car", entering the car's ID as seen in the table, and clicking "Remove car".
 - You can see only the cars which are for sale by clicking "Show for sale" and looking at the new subtable
 - You can locate my visual component by successfully adding or removing a car. There will be a success notification with a thumbs up image.
+  Source: https://pixabay.com/vectors/thumb-up-thumb-yes-okay-up-vote-297078/
 - You can save the current state of the collection by closing the programm and selecting "Yes" when asked if you would like to save your progress.

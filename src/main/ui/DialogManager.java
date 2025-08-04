@@ -69,6 +69,7 @@ public class DialogManager {
                 Car car = createCar(yearField, makeField, modelField, category, forSaleCheckbox);
                 collection.addCar(car);
                 dialog.dispose();
+                showSuccessDialog("Car added successfully!", "./image/thumbs_up.png");
             }
         });
         
@@ -130,6 +131,7 @@ public class DialogManager {
             public void actionPerformed(ActionEvent e) {
                 removeCar(idToBeRemoved);
                 dialog.dispose();
+                showSuccessDialog("Car removed successfully!", "./image/thumbs_up.png");
             }
         });
         
@@ -174,6 +176,54 @@ public class DialogManager {
         dialog.pack();
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setVisible(true);
+    }
+    
+    // EFFECTS: Shows a success confirmation with the thumbs up image
+    public void showSuccessDialog(String message, String imagePath) {
+        JDialog dialog = new JDialog(parentFrame, "Success", true);
+        
+        setupSuccessDialogComponents(dialog, message, imagePath);
+        setupSuccessDialogButton(dialog);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(parentFrame);
+        dialog.setVisible(true);
+    }
+
+    // EFFECTS: Sets up the components for the success dialog
+    private void setupSuccessDialogComponents(JDialog dialog, String message, String imagePath) {
+        dialog.setLayout(new BorderLayout(10, 10));
+        
+        JLabel imageLabel = new JLabel();
+        ImageIcon thumbsUp = new ImageIcon(imagePath);
+        if (thumbsUp.getIconWidth() > 0) {
+            Image img = thumbsUp.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+            thumbsUp = new ImageIcon(img);
+            imageLabel.setIcon(thumbsUp);
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        
+        dialog.add(imageLabel, BorderLayout.CENTER);
+        dialog.add(messageLabel, BorderLayout.SOUTH);
+    }
+
+    // EFFECTS: Sets up the OK button for the success dialog
+    private void setupSuccessDialogButton(JDialog dialog) {
+        JPanel buttonPanel = new JPanel();
+        JButton okButton = new JButton("OK");
+        
+        okButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+        
+        buttonPanel.add(okButton);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // REQUIRES: Input string must be one of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE,

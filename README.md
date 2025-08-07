@@ -47,3 +47,9 @@ Removed ID: 5 -- 2002 Honda Civic -- Category: RACECAR -- For sale?: false
 
 - Wed Aug 06 23:36:16 PDT 2025  
 Filtered cars for sale
+
+## Phase 4: Task 3
+
+- If I had more time to work on this project, I would potentially look into consolidating the DialogManager, FileManager, and TableManager classes
+into a single class. Right now, CarManagerUI directly manages and coordinates between three separate helper objects, which creates multiple dependencies and makes the main class responsible for coordinating their interactions. This violates the principle of minimizing dependencies and creates a somewhat complex web of relationships where CarManagerUI must know about the implementation details of each helper class. The consolidation would simplify the relationship with CarManagerUI, however it would likely end up creating a large and complex class which would
+not adhere to the Single Responsibility Principle.

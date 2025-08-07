@@ -67,6 +67,6 @@ public class JsonReader {
         Category category = Category.valueOf(jsonObject.getString("category"));
         boolean forSale = jsonObject.getBoolean("forSale");
         Car car = new Car(year, make, model, category, forSale);
-        c.addCar(car);
+        c.loadCar(car);
     }
 }

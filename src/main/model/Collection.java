@@ -15,10 +15,19 @@ public class Collection {
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds the given Car to the Collection 
+    // EFFECTS: Adds the given Car to the Collection
     public void addCar(Car c) {
         this.collection.add(c);
         EventLog.getInstance().logEvent(new Event("Added " + c.toString() + " to the collection"));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds the given Car to the Collection
+    // This method was made to reduce excess logging of cars that already existed
+    // before
+    // loading from file
+    public void loadCar(Car c) {
+        this.collection.add(c);
     }
 
     // REQUIRES: idToBeRemoved >= 1
@@ -37,14 +46,14 @@ public class Collection {
 
     // REQUIRES: carID >= 1
     // EFFECTS: Returns the car in the collection with a given ID number
-    //          or null if not found
+    // or null if not found
     public Car getCar(int carID) {
         for (Car c : collection) {
             if (c.getID() == carID) {
                 return c;
             }
         }
-        return null; 
+        return null;
     }
 
     // EFFECTS: Returns the entire Collection
@@ -53,8 +62,8 @@ public class Collection {
     }
 
     // REQUIRES: category must be of type Category
-    // EFFECTS: Returns a list of Cars in the Collection filtered by 
-    // the given category 
+    // EFFECTS: Returns a list of Cars in the Collection filtered by
+    // the given category
     public ArrayList<Car> filterCollectionByCategory(Category category) {
         ArrayList<Car> matches = new ArrayList<Car>();
         for (Car c : collection) {
@@ -65,7 +74,7 @@ public class Collection {
         return matches;
     }
 
-    // EFFECTS: Returns a list of Cars in the Collection which are 
+    // EFFECTS: Returns a list of Cars in the Collection which are
     // listed as for sale
     public ArrayList<Car> filterCollectionForSale() {
         ArrayList<Car> matches = new ArrayList<Car>();

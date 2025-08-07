@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -198,6 +199,15 @@ public class CarManagerUI {
         fileManager.saveCollection(frame, collection);
     }
 
+    // EFFECTS: Prints all logged events to the console
+    private void printLog() {
+        EventLog eventLog = EventLog.getInstance();
+        for (Event event : eventLog) {
+            System.out.println(event.toString());
+            System.out.println();
+        }
+    }
+
     // EFFECTS: Prompts the user to select if they want to save their
     // progress to file before closing the program
     private void exitProgram() {
@@ -210,8 +220,10 @@ public class CarManagerUI {
 
         if (choice == JOptionPane.YES_OPTION) {
             saveCollection();
+            printLog();
             System.exit(0);
         } else if (choice == JOptionPane.NO_OPTION) {
+            printLog();
             System.exit(0);
         }
     }

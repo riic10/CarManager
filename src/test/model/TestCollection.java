@@ -52,6 +52,21 @@ public class TestCollection {
     }
 
     @Test
+    void testLoadOneCar() {
+        testCollection.loadCar(testCar1);
+        assertEquals(1, testCollection.getCollection().size());
+    }
+
+    @Test
+    void testLoadMultipleCars() {
+        testCollection.loadCar(testCar1);
+        testCollection.loadCar(testCar2);
+        assertEquals(2, testCollection.getCollection().size());
+        testCollection.loadCar(testCar3);
+        assertEquals(3, testCollection.getCollection().size());
+    }
+
+    @Test
     void testRemoveOneCar() {
         testCollection.removeCar(3);
         assertEquals(0, testCollection.getCollection().size());

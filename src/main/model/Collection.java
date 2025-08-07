@@ -18,6 +18,7 @@ public class Collection {
     // EFFECTS: Adds the given Car to the Collection 
     public void addCar(Car c) {
         this.collection.add(c);
+        EventLog.getInstance().logEvent(new Event("Added " + c.toString() + " to the collection"));
     }
 
     // REQUIRES: idToBeRemoved >= 1
@@ -26,7 +27,9 @@ public class Collection {
     public void removeCar(int idToBeRemoved) {
         for (int i = 0; i < collection.size(); i++) {
             if (collection.get(i).getID() == idToBeRemoved) {
+                Car toBeRemoved = collection.get(i);
                 collection.remove(i);
+                EventLog.getInstance().logEvent(new Event("Removed " + toBeRemoved.toString()));
                 break;
             }
         }
@@ -71,6 +74,7 @@ public class Collection {
                 matches.add(c);
             }
         }
+        EventLog.getInstance().logEvent(new Event("Filtered cars for sale"));
         return matches;
     }
 

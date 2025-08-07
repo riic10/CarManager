@@ -27,3 +27,23 @@ I am manifesting an abundant life.
 - You can locate my visual component by successfully adding or removing a car. There will be a success notification with a thumbs up image.
   Source: https://pixabay.com/vectors/thumb-up-thumb-yes-okay-up-vote-297078/
 - You can save the current state of the collection by closing the programm and selecting "Yes" when asked if you would like to save your progress.
+
+## Phase 4: Task 2
+
+- Wed Aug 06 23:34:47 PDT 2025
+Added ID: 5 -- 2002 Honda Civic -- Category: RACECAR -- For sale?: false to the collection
+
+- Wed Aug 06 23:35:08 PDT 2025
+- Added ID: 6 -- 2025 Porsche 911 GT3 -- Category: SPORTSCAR -- For sale?: true to the collection
+
+- Wed Aug 06 23:36:00 PDT 2025
+- Added ID: 7 -- 2001 Nissan Skyline GTR -- Category: SPORTSCAR -- For sale?: false to the collection
+
+- Wed Aug 06 23:36:08 PDT 2025
+- Removed ID: 7 -- 2001 Nissan Skyline GTR -- Category: SPORTSCAR -- For sale?: false
+
+- Wed Aug 06 23:36:13 PDT 2025
+- Removed ID: 5 -- 2002 Honda Civic -- Category: RACECAR -- For sale?: false
+
+- Wed Aug 06 23:36:16 PDT 2025
+- Filtered cars for sale

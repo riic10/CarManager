@@ -86,4 +86,31 @@ class JsonWriterTest extends JsonTest {
             fail("Exception should not be thrown");
         }
     }
+
+    // Verifies that car IDs survive a save/reload round-trip. Before the fix, IDs
+    // were not persisted and were regenerated on read, so they could change.
+    @Test
+    void testWriterPreservesCarIds() {
+        try {
+            Collection c = new Collection();
+            c.addCar(new Car(2018, "lexus", "rx350", Category.LUXURY, false));
+            c.addCar(new Car(2010, "bugatti", "veyron", Category.SUPERCAR, true));
+            int firstId = c.getCollection().get(0).getID();
+            int secondId = c.getCollection().get(1).getID();
+
+            JsonWriter writer = new JsonWriter("./data/testWriterPreservesCarIds.json");
+            writer.open();
+            writer.write(c);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterPreservesCarIds.json");
+            Collection reloaded = reader.read();
+            ArrayList<Car> cars = reloaded.getCollection();
+            assertEquals(2, cars.size());
+            assertEquals(firstId, cars.get(0).getID());
+            assertEquals(secondId, cars.get(1).getID());
+        } catch (IOException e) {
+            fail("Exception should not be thrown");
+        }
+    }
 }

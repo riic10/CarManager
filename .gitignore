@@ -1,1 +1,19 @@
+# Compiled class files
 *.class
+
+# Maven build output
+target/
+
+# Legacy VS Code Java extension output
+bin/
+
+# IDE / editor
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db

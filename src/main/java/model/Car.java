@@ -5,7 +5,6 @@ import org.json.JSONObject;
 // Creates a new Car object with fields representing the production year, make, model,
 // category, and whether or not it's for sale or not.
 public class Car {
-    private static int nextID = 1;
     private int id;
     private int year;
     private String make;
@@ -16,7 +15,7 @@ public class Car {
     // EFFECTS: Constructs a Car with an ID number, the given year, make, model, category,
     // and whether it is for sale
     public Car(int year, String make, String model, Category category, boolean forSale) {
-        this.id = nextID++;
+        this.id = 0;
         this.year = year;
         this.make = make;
         this.model = model;
@@ -49,6 +48,12 @@ public class Car {
     }
 
     // MODIFIES: this
+    // EFFECTS: Sets the ID for the current Car
+    public void setID(int id) {
+        this.id = id;
+    }
+
+    // MODIFIES: this
     // EFFECTS: Sets the Car as being for sale
     public void setForSale() {
         this.forSale = true;
@@ -60,12 +65,6 @@ public class Car {
         this.forSale = false;
     }
 
-    // MODIFIES: this
-    // EFFECTS: Sets the nextID field back to 1
-    public void resetID() {
-        Car.nextID = 1;    
-    }
-
     // EFFECTS: Returns the given Car converted into a String
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
@@ -74,6 +73,7 @@ public class Car {
 
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+        json.put("id", id);
         json.put("year", year);
         json.put("make", make);
         json.put("model", model);

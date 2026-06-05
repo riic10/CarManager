@@ -14,9 +14,21 @@ public class Collection {
         collection = new ArrayList<>();
     }
 
+    // EFFECTS: Returns the next ID
+    public int nextID() {
+        int max = 0;
+        for (Car c : collection) {
+            if (c.getID() > max) {
+                max = c.getID();
+            }
+        }
+        return max + 1;
+    }
+
     // MODIFIES: this
     // EFFECTS: Adds the given Car to the Collection
     public void addCar(Car c) {
+        c.setID(nextID());
         this.collection.add(c);
         EventLog.getInstance().logEvent(new Event("Added " + c.toString() + " to the collection"));
     }

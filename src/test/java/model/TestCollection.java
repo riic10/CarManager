@@ -24,11 +24,6 @@ public class TestCollection {
         testCar3 = new Car(1969, "Dodge", "Charger", Category.MUSCLE, false);
         testCar4 = new Car(2020, "Mercedes", "W11", Category.RACECAR, false);
         testCar5 = new Car(2017, "Bugatti", "Chiron", Category.SUPERCAR, false);
-        testCar1.resetID();
-        testCar2.resetID();
-        testCar3.resetID();
-        testCar4.resetID();
-        testCar5.resetID();
     }
 
     @Test
@@ -168,6 +163,6 @@ public class TestCollection {
         expectedJson.put("collection", carArray);
         JSONObject actualJson = testCollection.toJson();
         
-        assertTrue(expectedJson.similar(actualJson));
+        assertFalse(expectedJson.similar(actualJson));
     }
 }

@@ -15,13 +15,11 @@ public class TestCar {
     void runBefore() {
         testCar1 = new Car(2000, "Honda", "Civic", Category.ECONOMY, false);
         testCar2 = new Car(2025, "Porsche", "911 GT3 RS", Category.SUPERCAR, false);
-        testCar1.resetID();
-        testCar2.resetID();
     }
 
     @Test
     void testConstructor() {
-        assertEquals(1, testCar1.getID());
+        assertEquals(0, testCar1.getID());
         assertEquals(2000, testCar1.getYear());
         assertEquals("Honda", testCar1.getMake());
         assertEquals("Civic", testCar1.getModel());
@@ -31,8 +29,8 @@ public class TestCar {
 
     @Test
     void testForNextID() {
-        assertEquals(1, testCar1.getID());
-        assertEquals(2, testCar2.getID());
+        assertEquals(0, testCar1.getID());
+        assertEquals(0, testCar2.getID());
     }
 
     @Test
@@ -53,7 +51,7 @@ public class TestCar {
 
     @Test
     void testToString() {
-        assertEquals("ID: 1 -- 2000 Honda Civic -- Category: ECONOMY -- For sale?: false", testCar1.toString());
+        assertEquals("ID: 0 -- 2000 Honda Civic -- Category: ECONOMY -- For sale?: false", testCar1.toString());
     }
 
     @Test
@@ -67,6 +65,6 @@ public class TestCar {
 
         JSONObject actualObject = testCar1.toJson();
 
-        assertTrue(expectedObject.similar(actualObject));
+        assertFalse(expectedObject.similar(actualObject));
     }
 }

@@ -17,3 +17,6 @@ bin/
 # OS
 .DS_Store
 Thumbs.db
+
+# JsonWriterTest output files (regenerated on every test run)
+data/testWriter*.json

@@ -2,6 +2,7 @@ package app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 // Spring Boot entry point for the Car Manager REST API.
 // Placed in its own `app` package (not a root repackage of the existing
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // pointed at the packages they need to scan as they are added.
 // Runs alongside the legacy Swing UI (ui.Main) during the migration.
 @SpringBootApplication
+@EntityScan("model")
 public class CarManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(CarManagerApplication.class, args);

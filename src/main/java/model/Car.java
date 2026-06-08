@@ -1,21 +1,40 @@
 package model;
 
+import jakarta.persistence.*;
 import org.json.JSONObject;
 
+@Entity
+@Table(name="cars")
 // Creates a new Car object with fields representing the production year, make, model,
 // category, and whether or not it's for sale or not.
 public class Car {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
+
+    @Column(nullable = false)
     private int year;
+
+    @Column(nullable = false, length = 100)
     private String make;
+
+    @Column(nullable = false, length = 100)
     private String model;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private Category category;
+
+    @Column(name = "for_sale", nullable = false)
     private boolean forSale;
+
+    // Zero argument constructor for JPA
+    protected Car() {}
 
     // EFFECTS: Constructs a Car with an ID number, the given year, make, model, category,
     // and whether it is for sale
     public Car(int year, String make, String model, Category category, boolean forSale) {
-        this.id = 0;
         this.year = year;
         this.make = make;
         this.model = model;
@@ -23,7 +42,7 @@ public class Car {
         this.forSale = forSale;
     }
 
-    public int getID() {
+    public Long getID() {
         return this.id;
     }
 
@@ -49,7 +68,7 @@ public class Car {
 
     // MODIFIES: this
     // EFFECTS: Sets the ID for the current Car
-    public void setID(int id) {
+    public void setID(Long id) {
         this.id = id;
     }
 

@@ -15,10 +15,10 @@ public class Collection {
     }
 
     // EFFECTS: Returns the next ID
-    public int nextID() {
-        int max = 0;
+    public Long nextID() {
+        long max = 0;
         for (Car c : collection) {
-            if (c.getID() > max) {
+            if (c.getID() != null && c.getID() > max) {
                 max = c.getID();
             }
         }

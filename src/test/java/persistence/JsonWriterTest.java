@@ -95,8 +95,8 @@ class JsonWriterTest extends JsonTest {
             Collection c = new Collection();
             c.addCar(new Car(2018, "lexus", "rx350", Category.LUXURY, false));
             c.addCar(new Car(2010, "bugatti", "veyron", Category.SUPERCAR, true));
-            int firstId = c.getCollection().get(0).getID();
-            int secondId = c.getCollection().get(1).getID();
+            Long firstId = c.getCollection().get(0).getID();
+            Long secondId = c.getCollection().get(1).getID();
 
             JsonWriter writer = new JsonWriter("./data/testWriterPreservesCarIds.json");
             writer.open();

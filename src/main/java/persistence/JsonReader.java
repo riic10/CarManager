@@ -61,7 +61,7 @@ public class JsonReader {
     // MODIFIES: c
     // EFFECTS: parses car from JSON object and adds it to collection
     private void addCar(Collection c, JSONObject jsonObject) {
-        int id = jsonObject.getInt("id");
+        Long id = jsonObject.getLong("id");
         int year = jsonObject.getInt("year");
         String make = jsonObject.getString("make");
         String model = jsonObject.getString("model");

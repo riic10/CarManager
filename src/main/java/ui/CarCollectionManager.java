@@ -116,7 +116,7 @@ public class CarCollectionManager {
 
         Car car = new Car(year, make, model, category, false);
         this.collection.addCar(car);
-        int id = car.getID();
+        Long id = car.getID();
         String newid = String.valueOf(id);
 
         System.out.println("The " + make + " " + model + " has been added to the collection with ID=" + newid);

@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
 @Entity
 @Table(name="cars")
@@ -88,16 +87,5 @@ public class Car {
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
             + " -- Category: " + category + " -- For sale?: " + forSale;
-    }
-
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("id", id);
-        json.put("year", year);
-        json.put("make", make);
-        json.put("model", model);
-        json.put("category", category);
-        json.put("forSale", forSale);
-        return json;
     }
 }

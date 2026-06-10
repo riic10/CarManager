@@ -54,13 +54,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Legacy JSON import (existing JsonReader/JsonWriter) -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
-        </dependency>
-
         <!-- Testing: JUnit 5, Mockito, MockMvc, etc. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -2,7 +2,6 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,19 +51,5 @@ public class TestCar {
     @Test
     void testToString() {
         assertEquals("ID: null -- 2000 Honda Civic -- Category: ECONOMY -- For sale?: false", testCar1.toString());
-    }
-
-    @Test
-    void testToJson() {
-        JSONObject expectedObject = new JSONObject();
-        expectedObject.put("year", 2000);
-        expectedObject.put("make", "Honda");
-        expectedObject.put("model", "Civic");
-        expectedObject.put("category", Category.ECONOMY);
-        expectedObject.put("forSale", false);
-
-        JSONObject actualObject = testCar1.toJson();
-
-        assertTrue(expectedObject.similar(actualObject));
     }
 }

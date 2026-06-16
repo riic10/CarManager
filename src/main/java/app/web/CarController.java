@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 import app.model.Car;
 import app.service.CarService;
 import app.web.dto.CarRequest;
@@ -42,7 +44,7 @@ public class CarController {
     }
 
     @PostMapping("/cars")
-    public ResponseEntity<CarResponse> create(@RequestBody CarRequest request) {
+    public ResponseEntity<CarResponse> create(@Valid @RequestBody CarRequest request) {
         Car saved = service.create(request.toEntity());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")

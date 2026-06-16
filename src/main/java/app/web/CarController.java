@@ -1,13 +1,23 @@
 package app.web;
 
-import app.web.dto.CarResponse;
-
+import java.net.URI;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import app.model.Car;
 import app.service.CarService;
+import app.web.dto.CarRequest;
+import app.web.dto.CarResponse;
 
 @RestController
 public class CarController {
@@ -22,5 +32,30 @@ public class CarController {
         return service.findAll().stream()
         .map(CarResponse::from)
         .toList();
+    }
+
+    @GetMapping("/cars/{id}")
+    public CarResponse getById(@PathVariable Long id) {
+        return service.findById(id)
+        .map(CarResponse::from)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/cars")
+    public ResponseEntity<CarResponse> create(@RequestBody CarRequest request) {
+        Car saved = service.create(request.toEntity());
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(saved.getID())
+            .toUri();
+        return ResponseEntity.created(location).body(CarResponse.from(saved));
+    }
+
+    @DeleteMapping("/cars/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!service.deleteById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

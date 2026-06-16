@@ -7,19 +7,19 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.repository.CarRepository;
+import app.service.CarService;
 
 @RestController
 public class CarController {
-    private final CarRepository repository;
+    private final CarService service;
 
-    public CarController(CarRepository repository) {
-        this.repository = repository;
+    public CarController(CarService service) {
+        this.service = service;
     }
 
     @GetMapping("/cars")
     public List<CarResponse> getAllCars() {
-        return repository.findAll().stream()
+        return service.findAll().stream()
         .map(CarResponse::from)
         .toList();
     }

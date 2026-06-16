@@ -1,11 +1,12 @@
 package app.web;
 
+import app.web.dto.CarResponse;
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.model.Car;
 import app.repository.CarRepository;
 
 @RestController
@@ -17,7 +18,9 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public List<Car> getAllCars() {
-        return repository.findAll();
+    public List<CarResponse> getAllCars() {
+        return repository.findAll().stream()
+        .map(CarResponse::from)
+        .toList();
     }
 }

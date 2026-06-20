@@ -1,55 +1,144 @@
 # Car Collection Manager
 
-The application will be for a car collector who wants to keep track of and manage
-their car collection.
+A REST API for managing a car collection, built with Spring Boot and PostgreSQL.
 
-This project is of interest to me as my friends and I hope to have many cars in the future.
-I am manifesting an abundant life.
+This project began as a Java Swing desktop app (a university OOP term project) and was
+incrementally modernized into a containerized, database-backed REST service — keeping the
+original domain model while replacing the desktop UI and flat-file JSON storage with a
+proper web API and relational database.
 
-## User Stories
+## Tech Stack
 
-- As a user, I want to be able to be able to create a car and add it to the collection
-- As a user, I want to be able to remove a car from the collection
-- As a user, I want to be able to view a list of the cars in the collection
-- As a user, I want to be able to select a category and view the cars that match
-(One of: RACECAR, SUPERCAR, SPORTSCAR, LUXURY, MUSCLE, VINTAGE, ECONOMY, OTHER)
-- As a user, I want to be able to mark a car as for sale and view the cars in a collection that are for sale
-- As a user, I want to be able to save my collection before quitting the program
-- As a user, I want to be able to load my collection from file after opening the program
+- **Java 17**, **Spring Boot 3.3**
+- **Spring Web** — REST controllers
+- **Spring Data JPA / Hibernate** — persistence
+- **PostgreSQL 16** — database (run via Docker)
+- **Flyway** — versioned, hand-written schema migrations
+- **Bean Validation** (Hibernate Validator) — request validation
+- **JUnit 5, MockMvc, Testcontainers** — unit + integration tests
+- **Maven** — build
 
-## Instructions for End User
+## Architecture
 
-- You can load the previous state of my application by running Main.java and selecting "Yes" when asked if you would like
-  to load existing car data.
-- You can create and add a car to the collection by clicking "Add car", filling out the form and clicking "Add car".
-- You can remove a car from the collection by clicking "Remove car", entering the car's ID as seen in the table, and clicking "Remove car".
-- You can see only the cars which are for sale by clicking "Show for sale" and looking at the new subtable
-- You can locate my visual component by successfully adding or removing a car. There will be a success notification with a thumbs up image.
-  Source: https://pixabay.com/vectors/thumb-up-thumb-yes-okay-up-vote-297078/
-- You can save the current state of the collection by closing the programm and selecting "Yes" when asked if you would like to save your progress.
+A conventional layered design, with DTOs at the edge so the public API contract is
+decoupled from the JPA entity and database schema:
 
-## Phase 4: Task 2
+```
+HTTP ─▶ CarController (web)  ─▶  CarService (business logic)  ─▶  CarRepository (Spring Data JPA)  ─▶  PostgreSQL
+            │                                                          
+            └─ maps CarRequest / CarResponse DTOs ◀─ Car entity
+```
 
-- Wed Aug 06 23:34:47 PDT 2025
-Added ID: 5 -- 2002 Honda Civic -- Category: RACECAR -- For sale?: false to the collection
+- `app.web` — `CarController`, plus `dto/` (request/response records) and `error/`
+  (`@RestControllerAdvice` for uniform error responses)
+- `app.service` — `CarService`, `CarNotFoundException`
+- `app.repository` — `CarRepository extends JpaRepository<Car, Long>`
+- `app.model` — `Car` entity, `Category` enum
 
-- Wed Aug 06 23:35:08 PDT 2025
-Added ID: 6 -- 2025 Porsche 911 GT3 -- Category: SPORTSCAR -- For sale?: true to the collection
+The database owns identity (`BIGINT GENERATED ALWAYS AS IDENTITY`), and the schema is
+created and versioned by Flyway (`src/main/resources/db/migration`) — Hibernate runs in
+`validate` mode, so it checks the entity against the schema but never alters it.
 
-- Wed Aug 06 23:36:00 PDT 2025
-Added ID: 7 -- 2001 Nissan Skyline GTR -- Category: SPORTSCAR -- For sale?: false to the collection
+## API
 
-- Wed Aug 06 23:36:08 PDT 2025
-Removed ID: 7 -- 2001 Nissan Skyline GTR -- Category: SPORTSCAR -- For sale?: false
+Base URL: `http://localhost:8080`
 
-- Wed Aug 06 23:36:13 PDT 2025
-Removed ID: 5 -- 2002 Honda Civic -- Category: RACECAR -- For sale?: false
+| Method | Path | Body | Success | Notes |
+|---|---|---|---|---|
+| `GET` | `/cars` | — | `200` + list | optional filters: `?forSale=true`, `?category=SUPERCAR` (combinable) |
+| `GET` | `/cars/{id}` | — | `200` | `404` if not found |
+| `POST` | `/cars` | `CarRequest` | `201` + `Location` header | `400` on validation failure |
+| `DELETE` | `/cars/{id}` | — | `204` | `404` if not found |
 
-- Wed Aug 06 23:36:16 PDT 2025
-Filtered cars for sale
+**`Category`** is one of: `RACECAR`, `SUPERCAR`, `SPORTSCAR`, `LUXURY`, `MUSCLE`,
+`VINTAGE`, `ECONOMY`, `OTHER`.
 
-## Phase 4: Task 3
+### Request body (`POST /cars`)
 
-- If I had more time to work on this project, I would potentially look into consolidating the DialogManager, FileManager, and TableManager classes
-into a single class. Right now, CarManagerUI directly manages and coordinates between three separate helper objects, which creates multiple dependencies and makes the main class responsible for coordinating their interactions. This violates the principle of minimizing dependencies and creates a somewhat complex web of relationships where CarManagerUI must know about the implementation details of each helper class. The consolidation would simplify the relationship with CarManagerUI, however it would likely end up creating a large and complex class which would
-not adhere to the Single Responsibility Principle.
+```json
+{
+  "year": 2026,
+  "make": "Porsche",
+  "model": "911 GT3",
+  "category": "SPORTSCAR",
+  "forSale": false
+}
+```
+
+Validation: `year` 1885–2100, `make`/`model` non-blank, `category` required.
+
+### Response body
+
+```json
+{
+  "id": 1,
+  "year": 2026,
+  "make": "Porsche",
+  "model": "911 GT3",
+  "category": "SPORTSCAR",
+  "forSale": false
+}
+```
+
+### Error body
+
+All errors return a consistent shape:
+
+```json
+{
+  "timestamp": "2026-06-20T12:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed",
+  "fieldErrors": ["make:must not be blank"]
+}
+```
+
+## Running Locally
+
+**Prerequisites:** JDK 17, Maven, and Docker (for PostgreSQL).
+
+1. **Start PostgreSQL** (creates the `carmanager` database on port 5432):
+
+   ```bash
+   docker compose up -d
+   ```
+
+2. **Run the application:**
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+   Flyway applies the schema migrations on startup, and the API is available at
+   `http://localhost:8080`.
+
+3. **Try it:**
+
+   ```bash
+   curl -X POST http://localhost:8080/cars \
+     -H "Content-Type: application/json" \
+     -d '{"year":2026,"make":"Porsche","model":"911 GT3","category":"SPORTSCAR","forSale":false}'
+
+   curl http://localhost:8080/cars
+   curl "http://localhost:8080/cars?category=SPORTSCAR&forSale=false"
+   ```
+
+## Testing
+
+```bash
+mvn test
+```
+
+- **`CarControllerTest`** — a `@WebMvcTest` slice test of the web layer with the service
+  mocked (no database).
+- **`CarManagerIntegrationTest`** — a `@SpringBootTest` integration test that runs a full
+  round-trip against a real PostgreSQL container via **Testcontainers**. It is annotated
+  `@Testcontainers(disabledWithoutDocker = true)`, so it runs wherever Docker is available
+  (e.g. CI) and is skipped otherwise.
+
+## Configuration
+
+Datasource and JPA/Flyway settings live in `src/main/resources/application.properties`.
+The defaults match the `docker-compose.yml` PostgreSQL service
+(`jdbc:postgresql://localhost:5432/carmanager`, user/password `carmanager`).

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import app.model.Car;
+import app.model.Category;
 import app.repository.CarRepository;
 
 @Service
@@ -34,5 +35,18 @@ public class CarService {
             throw new CarNotFoundException(id);
         }
        repository.deleteById(id);
+    }
+
+    public List<Car> find(Boolean forSale, Category category) {
+        if (forSale != null && category != null) {
+            return repository.findByForSaleAndCategory(forSale, category);
+        }
+        if (forSale != null) {
+            return repository.findByForSale(forSale);
+        }
+        if (category != null) {
+            return repository.findByCategory(category);
+        }
+        return repository.findAll();
     }
 }

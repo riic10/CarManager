@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
 import app.model.Car;
+import app.model.Category;
 import app.service.CarService;
 import app.web.dto.CarRequest;
 import app.web.dto.CarResponse;
@@ -28,8 +30,10 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public List<CarResponse> getAllCars() {
-        return service.findAll().stream()
+    public List<CarResponse> getAllCars(
+        @RequestParam(required = false) Boolean forSale,
+        @RequestParam(required = false) Category category) {
+        return service.find(forSale, category).stream()
         .map(CarResponse::from)
         .toList();
     }

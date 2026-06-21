@@ -1,5 +1,7 @@
 # Car Collection Manager
 
+[![CI](https://github.com/riic10/CarManager/actions/workflows/ci.yml/badge.svg)](https://github.com/riic10/CarManager/actions/workflows/ci.yml)
+
 A REST API for managing a car collection, built with Spring Boot and PostgreSQL.
 
 This project began as a Java Swing desktop app (a university OOP term project) and was

@@ -16,5 +16,18 @@ services:
       timeout: 5s
       retries: 5
 
+  app:
+    build: .
+    container_name: carmanager-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/carmanager
+      SPRING_DATASOURCE_USERNAME: carmanager
+      SPRING_DATASOURCE_PASSWORD: carmanager
+    ports:
+      - "8080:8080"
+
 volumes:
   carmanager-pgdata:

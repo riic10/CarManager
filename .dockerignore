@@ -1,0 +1,10 @@
+# Keep the Docker build context small — copy only what the build needs (pom.xml, src).
+target/
+.git/
+.github/
+.vscode/
+.claude/
+docs/
+data/
+*.md
+HELP.md

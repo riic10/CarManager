@@ -8,3 +8,7 @@ docs/
 data/
 *.md
 HELP.md
+
+# The frontend is built/deployed separately (Vercel); keep it (and its
+# node_modules) out of the backend image build context.
+frontend/

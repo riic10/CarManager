@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import {getCars, addCar, deleteCar} from "./api";
+import "./App.css";
 
 const CATEGORIES = ["RACECAR", "SUPERCAR", "SPORTSCAR", "LUXURY", "MUSCLE", "VINTAGE", "ECONOMY", "OTHER"];
 
@@ -44,14 +45,14 @@ export default function App() {
     }
 
     return (
-        <div>
+        <div className="app">
             <header>
                 <h1>Car Collection Manager</h1>
-                <p>Your online garage</p>
-                <p>{cars.length} car{cars.length !== 1 ? "s" : ""}</p>
+                <p className="tagline">Your online garage</p>
+                <p className="count">{cars.length} car{cars.length !== 1 ? "s" : ""}</p>
             </header>
 
-            <div>
+            <div className="filters">
                 <label>For Sale:</label>
                 <select value={forSaleFilter ?? ""} onChange={e => {
                     const v = e.target.value;
@@ -78,7 +79,7 @@ export default function App() {
             {!loading && cars.length === 0 && <p>No cars yet.</p>}
 
             {!loading && cars.length > 0 && (
-                <table>
+                <table className="car-table">
                     <thead>
                         <tr>
                             <th>Year</th>
@@ -95,33 +96,35 @@ export default function App() {
                                 <td>{car.year}</td>
                                 <td>{car.make}</td>
                                 <td>{car.model}</td>
-                                <td>{car.category}</td>
-                                <td>{car.forSale ? 'Yes' : 'No'}</td>
-                                <td><button onClick={() => handleDelete(car.id)}>Delete</button></td>
+                                <td><span className="badge badge-category">{car.category}</span></td>
+                                <td><span className={`badge ${car.forSale ? 'badge-yes' : 'badge-no'}`}>{car.forSale ? 'Yes' : 'No'}</span></td>
+                                <td><button className="btn-delete" onClick={() => handleDelete(car.id)}>Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             )}
-            <form onSubmit={handleAdd}>
+            <form className="add-form" onSubmit={handleAdd}>
                 <h2>Add a Car</h2>
-                <input type="number" placeholder="Year" value={form.year}
-                    onChange={e => setForm({...form, year: e.target.value})} />
-                <input type="text" placeholder="Make" value={form.make}
-                    onChange={e => setForm({...form, make: e.target.value})} />
-                <input type="text" placeholder="Model" value={form.model}
-                    onChange={e => setForm({...form, model: e.target.value})} />
-                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}>
-                    <option value="">Select category</option>
-                    {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
-                </select>
-                <label>
+                <div className="form-row">
+                    <input type="number" placeholder="Year" value={form.year}
+                        onChange={e => setForm({...form, year: e.target.value})} />
+                    <input type="text" placeholder="Make" value={form.make}
+                        onChange={e => setForm({...form, make: e.target.value})} />
+                    <input type="text" placeholder="Model" value={form.model}
+                        onChange={e => setForm({...form, model: e.target.value})} />
+                    <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}>
+                        <option value="">Select category</option>
+                        {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
+                    </select>
+                </div>
+                <label className="checkbox-row">
                     <input type="checkbox" checked={form.forSale}
                         onChange={e => setForm({...form, forSale: e.target.checked})} />
-                    {' '}For Sale
+                    For Sale
                 </label>
-                <button type="submit">Add</button>
-                {fieldErrors.map((fe, i) => <p key={i} style={{color:'red'}}>{fe}</p>)}
+                <button className="btn-add" type="submit">Add</button>
+                {fieldErrors.map((fe, i) => <p key={i} className="field-error">{fe}</p>)}
             </form>
         </div>
     );

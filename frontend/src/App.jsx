@@ -1,122 +1,128 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import {useState, useEffect} from "react";
+import {getCars, addCar, deleteCar} from "./api";
 
-function App() {
-  const [count, setCount] = useState(0)
+const CATEGORIES = ["RACECAR", "SUPERCAR", "SPORTSCAR", "LUXURY", "MUSCLE", "VINTAGE", "ECONOMY", "OTHER"];
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+export default function App() {
+    const [cars, setCars] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [forSaleFilter, setForSaleFilter] = useState(null);
+    const [categoryFilter, setCategoryFilter] = useState(null);
+    const [form, setForm] = useState({year:"", make:"", model:"", category:"", forSale:false});
+    const [fieldErrors, setFieldErrors] = useState([]);
+
+    useEffect(() => {
+        getCars(forSaleFilter, categoryFilter).then(data => {
+            setCars(data);
+            setLoading(false);
+        });
+    }, [forSaleFilter, categoryFilter]);
+
+    async function handleAdd(e) {
+        e.preventDefault();
+        setFieldErrors([]);
+        try {
+            await addCar({...form, year:Number(form.year)});
+            setForm({year:"", make:"", model:"", category:"", forSale:false});
+            setLoading(true);
+            getCars(forSaleFilter, categoryFilter).then(data => {
+                setCars(data);
+                setLoading(false);
+            });
+        } catch (err) {
+            setFieldErrors(err.fieldErrors ?? [err.message]);
+        }
+    }
+
+    async function handleDelete(id) {
+        try {
+            await deleteCar(id);
+            setCars(cars.filter(car => car.id !== id));
+        } catch (err) {
+            alert(err.message);
+        }
+    }
+
+    return (
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+            <header>
+                <h1>Car Collection Manager</h1>
+                <p>Your online garage</p>
+                <p>{cars.length} car{cars.length !== 1 ? "s" : ""}</p>
+            </header>
 
-      <div className="ticks"></div>
+            <div>
+                <label>For Sale:</label>
+                <select value={forSaleFilter ?? ""} onChange={e => {
+                    const v = e.target.value;
+                    setForSaleFilter(v === "" ? null : v === "true");
+                    setLoading(true);
+                }}>
+                    <option value="">All</option>
+                    <option value="true">For Sale</option>
+                    <option value="false">Not For Sale</option>
+                </select>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+                <label> Category: </label>
+                <select value={categoryFilter ?? ""} onChange={e => {
+                    setCategoryFilter(e.target.value || null);
+                    setLoading(true);
+                }}>
+                    <option value="">All</option>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
+                </select>
+            </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+            {loading && <p>Loading...</p>}
+
+            {!loading && cars.length === 0 && <p>No cars yet.</p>}
+
+            {!loading && cars.length > 0 && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Category</th>
+                            <th>For Sale</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cars.map(car => (
+                            <tr key={car.id}>
+                                <td>{car.year}</td>
+                                <td>{car.make}</td>
+                                <td>{car.model}</td>
+                                <td>{car.category}</td>
+                                <td>{car.forSale ? 'Yes' : 'No'}</td>
+                                <td><button onClick={() => handleDelete(car.id)}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+            <form onSubmit={handleAdd}>
+                <h2>Add a Car</h2>
+                <input type="number" placeholder="Year" value={form.year}
+                    onChange={e => setForm({...form, year: e.target.value})} />
+                <input type="text" placeholder="Make" value={form.make}
+                    onChange={e => setForm({...form, make: e.target.value})} />
+                <input type="text" placeholder="Model" value={form.model}
+                    onChange={e => setForm({...form, model: e.target.value})} />
+                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}>
+                    <option value="">Select category</option>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
+                </select>
+                <label>
+                    <input type="checkbox" checked={form.forSale}
+                        onChange={e => setForm({...form, forSale: e.target.checked})} />
+                    {' '}For Sale
+                </label>
+                <button type="submit">Add</button>
+                {fieldErrors.map((fe, i) => <p key={i} style={{color:'red'}}>{fe}</p>)}
+            </form>
+        </div>
+    );
 }
-
-export default App

@@ -11,10 +11,15 @@ export default function App() {
     const [categoryFilter, setCategoryFilter] = useState(null);
     const [form, setForm] = useState({year:"", make:"", model:"", category:"", forSale:false});
     const [fieldErrors, setFieldErrors] = useState([]);
+    const [loadError, setLoadError] = useState(null);
 
     useEffect(() => {
         getCars(forSaleFilter, categoryFilter).then(data => {
             setCars(data);
+            setLoadError(null);
+            setLoading(false);
+        }).catch(err => {
+            setLoadError(err.message);
             setLoading(false);
         });
     }, [forSaleFilter, categoryFilter]);
@@ -76,9 +81,11 @@ export default function App() {
 
             {loading && <p>Loading...</p>}
 
-            {!loading && cars.length === 0 && <p>No cars yet.</p>}
+            {loadError && <p className="field-error">Could not load cars: {loadError}</p>}
 
-            {!loading && cars.length > 0 && (
+            {!loading && !loadError && cars.length === 0 && <p>No cars yet.</p>}
+
+            {!loading && !loadError && cars.length > 0 && (
                 <table className="car-table">
                     <thead>
                         <tr>

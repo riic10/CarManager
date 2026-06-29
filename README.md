@@ -4,6 +4,8 @@
 
 A REST API for managing a car collection, built with Spring Boot and PostgreSQL.
 
+**🔗 Live demo:** [car-manager-umber.vercel.app](https://car-manager-umber.vercel.app) — a React frontend (Vercel) backed by this API (Render) and PostgreSQL (Neon). On the free tiers, the first request after the services have been idle can take ~30-60s while they wake.
+
 This project began as a Java Swing desktop app (a university OOP term project) and was
 incrementally modernized into a containerized, database-backed REST service — keeping the
 original domain model while replacing the desktop UI and flat-file JSON storage with a

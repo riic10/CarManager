@@ -18,5 +18,10 @@ bin/
 .DS_Store
 Thumbs.db
 
-# JsonWriterTest output files (regenerated on every test run)
-data/testWriter*.json
+# Claude Code local settings
+.claude/
+
+# Personal notes and local docs (not part of the project)
+CarManager-prep-sheet.md
+MedShare-prep-sheet.md
+docs/

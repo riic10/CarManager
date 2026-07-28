@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,6 +23,7 @@ import app.web.dto.CarRequest;
 import app.web.dto.CarResponse;
 
 @RestController
+@RequestMapping("/cars")
 public class CarController {
     private final CarService service;
 
@@ -29,7 +31,7 @@ public class CarController {
         this.service = service;
     }
 
-    @GetMapping("/cars")
+    @GetMapping
     public List<CarResponse> getAllCars(
         @RequestParam(required = false) Boolean forSale,
         @RequestParam(required = false) Category category) {
@@ -38,12 +40,12 @@ public class CarController {
             .toList();
     }
 
-    @GetMapping("/cars/{id}")
+    @GetMapping("/{id}")
     public CarResponse getById(@PathVariable Long id) {
         return CarResponse.from(service.getById(id));
     }
 
-    @PostMapping("/cars")
+    @PostMapping
     public ResponseEntity<CarResponse> create(@Valid @RequestBody CarRequest request) {
         Car saved = service.create(request.toEntity());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -53,7 +55,7 @@ public class CarController {
         return ResponseEntity.created(location).body(CarResponse.from(saved));
     }
 
-    @DeleteMapping("/cars/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -21,6 +21,7 @@ proper web API and relational database.
 - **Bean Validation** (Hibernate Validator) — request validation
 - **JUnit 5, MockMvc, Testcontainers** — unit + integration tests
 - **Maven** — build
+- **React 19 + Vite** — frontend SPA (`frontend/`)
 
 ## Architecture
 
@@ -69,7 +70,7 @@ Base URL: `http://localhost:8080`
 }
 ```
 
-Validation: `year` 1885–2100, `make`/`model` non-blank, `category` required.
+Validation: `year` 1885–2100, `make`/`model` non-blank and at most 100 characters, `category` required.
 
 ### Response body
 
@@ -97,6 +98,26 @@ All errors return a consistent shape:
   "fieldErrors": ["make:must not be blank"]
 }
 ```
+
+Unexpected server errors also use this shape, returned as `500` with a generic message
+(details are logged server-side, not exposed to clients).
+
+## Frontend
+
+A React 19 + Vite single-page app in [`frontend/`](frontend/) provides the UI —
+listing, filtering, adding, and deleting cars against this API. It's what's deployed
+to Vercel as the live demo.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The dev server runs at `http://localhost:5173` and expects the API at
+`http://localhost:8080` (the backend's default CORS config already allows this origin).
+To point it at a different backend, set `VITE_API_URL` (e.g. in `frontend/.env.local`).
+See [frontend/README.md](frontend/README.md) for details.
 
 ## Running Locally
 
@@ -134,12 +155,19 @@ All errors return a consistent shape:
 mvn test
 ```
 
+- **`CarTest`** — plain JUnit unit tests of the `Car` entity.
 - **`CarControllerTest`** — a `@WebMvcTest` slice test of the web layer with the service
   mocked (no database).
 - **`CarManagerIntegrationTest`** — a `@SpringBootTest` integration test that runs a full
   round-trip against a real PostgreSQL container via **Testcontainers**. It is annotated
   `@Testcontainers(disabledWithoutDocker = true)`, so it runs wherever Docker is available
   (e.g. CI) and is skipped otherwise.
+
+Frontend linting (ESLint with the React hooks rules):
+
+```bash
+cd frontend && npm run lint
+```
 
 ## Configuration
 

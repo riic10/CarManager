@@ -4,6 +4,12 @@ import "./App.css";
 
 const CATEGORIES = ["RACECAR", "SUPERCAR", "SPORTSCAR", "LUXURY", "MUSCLE", "VINTAGE", "ECONOMY", "OTHER"];
 
+function CategoryOptions() {
+    return CATEGORIES.map(c =>
+        <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>
+    );
+}
+
 export default function App() {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,40 +18,46 @@ export default function App() {
     const [form, setForm] = useState({year:"", make:"", model:"", category:"", forSale:false});
     const [fieldErrors, setFieldErrors] = useState([]);
     const [loadError, setLoadError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    function loadCars() {
+        return getCars(forSaleFilter, categoryFilter)
+            .then(data => {
+                setCars(data);
+                setLoadError(null);
+            })
+            .catch(err => setLoadError(err.message))
+            .finally(() => setLoading(false));
+    }
 
     useEffect(() => {
-        getCars(forSaleFilter, categoryFilter).then(data => {
-            setCars(data);
-            setLoadError(null);
-            setLoading(false);
-        }).catch(err => {
-            setLoadError(err.message);
-            setLoading(false);
-        });
+        loadCars();
     }, [forSaleFilter, categoryFilter]);
 
     async function handleAdd(e) {
         e.preventDefault();
         setFieldErrors([]);
+        setSubmitting(true);
         try {
             await addCar({...form, year:Number(form.year)});
             setForm({year:"", make:"", model:"", category:"", forSale:false});
             setLoading(true);
-            getCars(forSaleFilter, categoryFilter).then(data => {
-                setCars(data);
-                setLoading(false);
-            });
+            await loadCars();
         } catch (err) {
             setFieldErrors(err.fieldErrors ?? [err.message]);
+        } finally {
+            setSubmitting(false);
         }
     }
 
     async function handleDelete(id) {
+        if (!window.confirm("Delete this car?"))
+            return;
         try {
             await deleteCar(id);
-            setCars(cars.filter(car => car.id !== id));
+            setCars(prev => prev.filter(car => car.id !== id));
         } catch (err) {
-            alert(err.message);
+            setLoadError(err.message);
         }
     }
 
@@ -58,8 +70,8 @@ export default function App() {
             </header>
 
             <div className="filters">
-                <label>For Sale:</label>
-                <select value={forSaleFilter ?? ""} onChange={e => {
+                <label htmlFor="for-sale-filter">For Sale:</label>
+                <select id="for-sale-filter" value={forSaleFilter ?? ""} onChange={e => {
                     const v = e.target.value;
                     setForSaleFilter(v === "" ? null : v === "true");
                     setLoading(true);
@@ -69,13 +81,13 @@ export default function App() {
                     <option value="false">Not For Sale</option>
                 </select>
 
-                <label> Category: </label>
-                <select value={categoryFilter ?? ""} onChange={e => {
+                <label htmlFor="category-filter"> Category: </label>
+                <select id="category-filter" value={categoryFilter ?? ""} onChange={e => {
                     setCategoryFilter(e.target.value || null);
                     setLoading(true);
                 }}>
                     <option value="">All</option>
-                    {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
+                    <CategoryOptions />
                 </select>
             </div>
 
@@ -94,7 +106,7 @@ export default function App() {
                             <th>Model</th>
                             <th>Category</th>
                             <th>For Sale</th>
-                            <th></th>
+                            <th><span className="sr-only">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,7 +117,7 @@ export default function App() {
                                 <td>{car.model}</td>
                                 <td><span className="badge badge-category">{car.category}</span></td>
                                 <td><span className={`badge ${car.forSale ? 'badge-yes' : 'badge-no'}`}>{car.forSale ? 'Yes' : 'No'}</span></td>
-                                <td><button className="btn-delete" onClick={() => handleDelete(car.id)}>Delete</button></td>
+                                <td><button className="btn-delete" aria-label={`Delete ${car.year} ${car.make} ${car.model}`} onClick={() => handleDelete(car.id)}>Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -114,15 +126,15 @@ export default function App() {
             <form className="add-form" onSubmit={handleAdd}>
                 <h2>Add a Car</h2>
                 <div className="form-row">
-                    <input type="number" placeholder="Year" value={form.year}
+                    <input type="number" placeholder="Year" aria-label="Year" value={form.year}
                         onChange={e => setForm({...form, year: e.target.value})} />
-                    <input type="text" placeholder="Make" value={form.make}
+                    <input type="text" placeholder="Make" aria-label="Make" value={form.make}
                         onChange={e => setForm({...form, make: e.target.value})} />
-                    <input type="text" placeholder="Model" value={form.model}
+                    <input type="text" placeholder="Model" aria-label="Model" value={form.model}
                         onChange={e => setForm({...form, model: e.target.value})} />
                     <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}>
                         <option value="">Select category</option>
-                        {CATEGORIES.map(c => <option key={c} value={c}>{c[0] + c.slice(1).toLowerCase()}</option>)}
+                        <CategoryOptions />
                     </select>
                 </div>
                 <label className="checkbox-row">
@@ -130,7 +142,7 @@ export default function App() {
                         onChange={e => setForm({...form, forSale: e.target.checked})} />
                     For Sale
                 </label>
-                <button className="btn-add" type="submit">Add</button>
+                <button className="btn-add" type="submit" disabled={submitting}>Add</button>
                 {fieldErrors.map((fe, i) => <p key={i} className="field-error">{fe}</p>)}
             </form>
         </div>

@@ -14,8 +14,8 @@ export function getCars(forSale, category) {
     const params = new URLSearchParams();
     if (forSale != null) params.set("forSale", forSale);
     if (category != null) params.set("category", category);
-    const query = params.size ? `?${params}` : "";
-    return request(`/cars${query}`);
+    const query = params.toString();
+    return request(`/cars${query ? `?${query}` : ""}`);
 }
 
 export function addCar(car) {

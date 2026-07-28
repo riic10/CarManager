@@ -38,7 +38,7 @@ public class CarManagerIntegrationTest {
         Car toSave = new Car(2026, "Porsche", "911 GT3", Category.SPORTSCAR, false);
         Car saved = service.create(toSave);
 
-        assertNotNull(saved.getID());
-        assertEquals("Porsche", service.getById(saved.getID()).getMake());
+        assertNotNull(saved.getId());
+        assertEquals("Porsche", service.getById(saved.getId()).getMake());
     }
 }

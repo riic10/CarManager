@@ -9,15 +9,15 @@ public record CarResponse(
     String make,
     String model,
     Category category,
-    boolean forSale ) {
-        
-    public static CarResponse from (Car car) {
+    boolean forSale) {
+
+    public static CarResponse from(Car car) {
         return new CarResponse(
-            car.getID(),
+            car.getId(),
             car.getYear(),
             car.getMake(),
             car.getModel(),
             car.getCategory(),
-            car.getForSale());
+            car.isForSale());
     }
 }

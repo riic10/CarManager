@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -34,8 +34,8 @@ public class CarController {
         @RequestParam(required = false) Boolean forSale,
         @RequestParam(required = false) Category category) {
         return service.find(forSale, category).stream()
-        .map(CarResponse::from)
-        .toList();
+            .map(CarResponse::from)
+            .toList();
     }
 
     @GetMapping("/cars/{id}")
@@ -48,7 +48,7 @@ public class CarController {
         Car saved = service.create(request.toEntity());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(saved.getID())
+            .buildAndExpand(saved.getId())
             .toUri();
         return ResponseEntity.created(location).body(CarResponse.from(saved));
     }

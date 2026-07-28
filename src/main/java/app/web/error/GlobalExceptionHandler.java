@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Invalid value for parameter " + ex.getName(), List.of());
     }
 
-    private ResponseEntity<ApiError> build (HttpStatus status, String message, List<String> fieldErrors) {
+    private ResponseEntity<ApiError> build(HttpStatus status, String message, List<String> fieldErrors) {
         ApiError body = new ApiError(Instant.now(), status.value(), status.getReasonPhrase(), message, fieldErrors);
         return ResponseEntity.status(status).body(body);
     }

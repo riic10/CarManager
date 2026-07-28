@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -41,7 +40,7 @@ public class Car {
         this.forSale = forSale;
     }
 
-    public Long getID() {
+    public Long getId() {
         return this.id;
     }
 
@@ -61,29 +60,12 @@ public class Car {
         return this.category;
     }
 
-    public boolean getForSale() {
+    public boolean isForSale() {
         return this.forSale;
     }
 
-    // MODIFIES: this
-    // EFFECTS: Sets the ID for the current Car
-    public void setID(Long id) {
-        this.id = id;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Sets the Car as being for sale
-    public void setForSale() {
-        this.forSale = true;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Sets the Car as being not for sale
-    public void setNotForSale() {
-        this.forSale = false;
-    }
-
     // EFFECTS: Returns the given Car converted into a String
+    @Override
     public String toString() {
         return "ID: " + id + " -- " + year + " " + make + " " + model
             + " -- Category: " + category + " -- For sale?: " + forSale;
